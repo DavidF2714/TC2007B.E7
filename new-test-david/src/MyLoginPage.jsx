@@ -1,44 +1,66 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useLogin, useNotify, Notification } from 'react-admin';
+import { useLogin, useNotify } from 'react-admin';
 
 const MyLoginPage = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const login = useLogin();
     const notify = useNotify();
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // will call authProvider.login({ email, password })
-        login({ email, password }).catch(() =>
-            notify('E-mail o contraseña inválido')
-        );
+        try {
+            // Call the useLogin hook to perform login
+            await login({ username, password });
+        } catch (error) {
+            notify('Authentication failed');
+        }
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-            {/* Place your logo component here */}
-            <img src="/imgs/logo.png" alt="Logo" width="500" height="500" />
-
-            {/* Login Form */}
-            <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
-                <input
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                />
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                />
-                <button type="submit">Sign in</button>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '100vh',
+                flexDirection: 'column',
+            }}
+        >
+            <h2>Login</h2>
+            <form
+                onSubmit={handleSubmit}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <div>
+                    <label htmlFor="username">Usuario: </label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="password">Contraseña: </label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <button type="submit">Ingresar</button>
+                </div>
             </form>
         </div>
     );

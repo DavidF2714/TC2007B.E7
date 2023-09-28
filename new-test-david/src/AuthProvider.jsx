@@ -1,8 +1,6 @@
-import { AuthProvider } from "react-admin";
-
-const authProvider: AuthProvider = {
+const authProvider = {
   login: async ({ username, password }) => {
-    const request = new Request('http://localhost/login', {
+    const request = new Request('http://localhost:1337/login', {
       method: 'POST',
       body: JSON.stringify({ "username": username, "password": password }),
       headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -28,7 +26,7 @@ const authProvider: AuthProvider = {
   checkAuth: () => {
     return localStorage.getItem("auth") ? Promise.resolve() : Promise.reject();
   },
-  checkError: (error: any) => {
+  checkError: (error) => {
     const status = error.status;
     if (status === 401 || status === 403) {
       localStorage.removeItem("auth");
@@ -39,7 +37,7 @@ const authProvider: AuthProvider = {
   },
   getIdentity: () => {
     try {
-      return Promise.resolve(JSON.parse(localStorage.getItem("identity") || ""));
+      return Promise.resolve(JSON.parse(localStorage.getItem("identity")));
     } catch {
       return Promise.reject();
     }
