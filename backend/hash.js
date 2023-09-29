@@ -5,9 +5,10 @@ const bcrypt = require("bcrypt");
 const mongoURL = "mongodb://localhost:27017/tc2007b";
 
 // Datos del usuario que deseas agregar
-const usuario = "Ian123@hotmail.com";
-const password = "prueba2";
-const fullName = "Ian Luis";
+const usuario = "Coordinador2@hotmail.com";
+const password = "coordinador2";
+const fullName = "Coor Dinador2";
+const permissions = 'Coordinador';
 
 // Número de rondas de salto para bcrypt
 const saltRounds = 10;
@@ -46,7 +47,8 @@ async function main() {
         const result = await db.collection("usuarios").insertOne({
           usuario: usuario,
           password: hash,
-          fullName: fullName
+          fullName: fullName,
+          permissions: permissions
         });
         console.log("Usuario agregado con éxito.");
       });

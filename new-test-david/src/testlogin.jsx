@@ -53,11 +53,10 @@ const CustomLoginPage = () => {
                             />
                             <MDBBtn className="mb-4 px-5 mx-5 w-100" color='info' size='lg' type="submit">Ingresar</MDBBtn>
                         </form>
-                        <p className='ms-5'>¿Aún sin cuenta?<a href="#!" className="link-info"> Registrarse </a></p>
                     </div>
                 </MDBCol>
                 <MDBCol sm='6' className='d-none d-sm-block px-0'>
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img3.webp"
+                    <img src="https://wallpapercave.com/wp/wp6511786.jpg"
                     alt="Login image" className="w-100" style={{ objectFit: 'contain', objectPosition: 'left'}}/>
                 </MDBCol>
             </MDBRow>

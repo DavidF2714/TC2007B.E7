@@ -15,6 +15,7 @@ import CustomLoginPage from "./testlogin";
 export const App = () => (
     <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} darkTheme={{palette:{mode:'dark'}}} dashboard={Dashboard} i18nProvider={i18nProvider} loginPage={CustomLoginPage}>
         <Resource name="tickets" list={TicketList} edit={TicketEdit} create={TicketCreate} options={{label:'Tickets'}}/>
+        <Resource name="dashboard"/>
         <CustomRoutes>
             <Route path="/registrarse" element={<Registrarse/>}/>
         </CustomRoutes>

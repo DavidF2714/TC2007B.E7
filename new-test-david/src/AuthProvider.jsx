@@ -15,7 +15,7 @@ const authProvider = {
       localStorage.setItem('identity', JSON.stringify({ "id": auth.id, "fullName": auth.fullName }));
       return Promise.resolve();
     } catch {
-      throw new Error('Error en usuario o password');
+      throw new Error('Error en usuario o contraseña');
     }
   },
   logout: () => {
