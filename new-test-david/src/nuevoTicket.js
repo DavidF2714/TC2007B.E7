@@ -20,7 +20,7 @@ const NuevoTicket = () => {
       const handleSendData = async() => {
           console.log(JSON.stringify(datos))
           // Convert the form data to JSON
-          const request = await new Request('http://localhost:1337/tickets', {
+          const request = await new Request('http://127.0.0.1:1337/tickets', {
               method: 'POST',
               body: JSON.stringify(datos),
               headers: new Headers({ 'Content-Type': 'application/json' }),

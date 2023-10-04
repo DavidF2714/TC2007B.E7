@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
 
 // URL de conexión a la base de datos
-const mongoURL = "mongodb://localhost:27017/tc2007b";
+const mongoURL = "mongodb://127.0.0.1:27017/tc2007b";
 
 // Datos del usuario que deseas agregar
 const usuario = "Coordinador2@hotmail.com";

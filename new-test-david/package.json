@@ -9,7 +9,7 @@
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src",
     "format": "prettier --write ./src",
     "test": "jest",
-    "start": "node server.js"
+    "start": "react-scripts start"
   },
   "dependencies": {
     "mdb-react-ui-kit": "^6.2.0",
