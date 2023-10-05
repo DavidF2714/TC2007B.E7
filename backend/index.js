@@ -4,8 +4,6 @@ var cors=require('cors')
 bodyParser=require('body-parser')
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
-const https=require('https')
-const fs=require('fs')
 
 let db;
 const app=express();
@@ -14,7 +12,7 @@ app.use(bodyParser.json());
 
 
 async function connectDB(){
-    let client=new MongoClient("mongodb://localhost:27017/tc2007b")
+    let client=new MongoClient("mongodb://localhost/tc2007b")
     await client.connect();
     db=client.db();
     console.log("Conectado a la base de datos")
