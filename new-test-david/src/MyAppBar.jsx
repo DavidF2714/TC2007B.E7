@@ -1,4 +1,4 @@
-import { AppBar, useTheme, ThemeProvider } from 'react-admin';
+import { AppBar, useTheme, ThemeProvider, ToggleThemeButton } from 'react-admin';
 import { Button } from '@mui/material';
 
 const ThemeToggler = () => {
@@ -9,9 +9,9 @@ const ThemeToggler = () => {
     };
 
     return (
-        <Button onClick={toggleTheme}>
+        <ToggleThemeButton onClick={toggleTheme}>
             {theme === 'dark' ? 'Light theme' : 'Dark theme'}
-        </Button>
+        </ToggleThemeButton>
     );
 }
 

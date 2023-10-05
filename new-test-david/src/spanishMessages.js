@@ -145,7 +145,7 @@ export const spanishMessages = {
         },
         notification: {
             updated: 'Elemento actualizado |||| %{smart_count} elementos actualizados',
-            created: 'Elemenp creado',
+            created: 'Elemento creado',
             deleted: 'Elemento eliminado |||| %{smart_count} elementos eliminados',
             bad_item: 'Elemento incorrecto',
             item_doesnt_exist: 'El elemento no existe',

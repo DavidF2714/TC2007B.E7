@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLogin, useNotify } from 'react-admin';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import 'mdb-react-ui-kit/dist/css/mdb.dark.min.css';
 
 const CustomLoginPage = () => {
     const [username, setUsername] = useState('');
@@ -41,6 +40,7 @@ const CustomLoginPage = () => {
                                 size="lg"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
+
                             />
                             <MDBInput
                                 wrapperClass='mb-4 mx-5 w-100'
@@ -52,7 +52,9 @@ const CustomLoginPage = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <MDBBtn className="mb-4 px-5 mx-5 w-100" color='info' size='lg' type="submit">Ingresar</MDBBtn>
+
                         </form>
+                            <MDBBtn className="mb-4 px-5 mx-5 w-100" color='success' size='lg' type="submit" href='/#/registrarse'>Registrarse</MDBBtn>
                     </div>
                 </MDBCol>
                 <MDBCol sm='6' className='d-none d-sm-block px-0'>
