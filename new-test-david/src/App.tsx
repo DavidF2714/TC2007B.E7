@@ -1,6 +1,7 @@
 import { Admin, CustomRoutes, Resource, ShowGuesser, ThemeProvider, defaultDarkTheme, defaultLightTheme, defaultTheme } from "react-admin";
 import { dataProvider } from './dataProvider';
 import { Dashboard } from "./Dashboard";
+import './css/dashboard.css'
 import { AuthProvider} from "react-admin";
 import { i18nProvider } from "./i18nProvider";
 import React from "react";
