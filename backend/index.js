@@ -98,7 +98,6 @@ app.post("/tickets", async (request, response)=>{
         let id=data.length+1;
         addValue["id"]=id;
         addValue["usuario"]=verifiedToken.usuario;
-        addValue["timestamp"]=new Date();
         data=await db.collection('tickets').insertOne(addValue);
         response.json(data);
     }catch{
@@ -125,13 +124,15 @@ app.post("/registrarse", async(request, response)=>{
     let user=request.body.username;
     let pass=request.body.password;
     let fname=request.body.fullName;
+    let perm=request.body.permissions;
+
     console.log(request.body)
     let data= await db.collection("usuarios").findOne({"usuario": user});
     if(data==null){
         try{
             bcrypt.genSalt(10, (error, salt)=>{
                 bcrypt.hash(pass, salt, async(error, hash)=>{
-                    let usuarioAgregar={"usuario": user, "password": hash, "fullName": fname};
+                    let usuarioAgregar={"usuario": user, "password": hash, "fullName": fname, "permissions": perm};
                     data= await db.collection("usuarios").insertOne(usuarioAgregar);
                     response.sendStatus(201);
                 })
