@@ -1,7 +1,7 @@
 const express=require('express')
 const MongoClient=require('mongodb').MongoClient
-var cors=require('cors')
-bodyParser=require('body-parser')
+const cors = require('cors')
+const bodyParser=require('body-parser')
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
 
@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 
 async function connectDB(){
-    let client=new MongoClient("mongodb://127.0.0.1:27017/tc2007b")
+    let client=new MongoClient("mongodb://localhost:27017/tc2007b")
     await client.connect();
     db=client.db();
     console.log("Conectado a la base de datos")
@@ -98,6 +98,7 @@ app.post("/tickets", async (request, response)=>{
         let id=data.length+1;
         addValue["id"]=id;
         addValue["usuario"]=verifiedToken.usuario;
+        addValue["timestamp"]=new Date();
         data=await db.collection('tickets').insertOne(addValue);
         response.json(data);
     }catch{
