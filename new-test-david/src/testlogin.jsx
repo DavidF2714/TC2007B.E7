@@ -16,7 +16,7 @@ const CustomLoginPage = () => {
             // Call the useLogin hook to perform login
             await login({ username, password });
         } catch (error) {
-            notify('Authentication failed');
+            notify('Error en la autentificación');
         }
     };
 
