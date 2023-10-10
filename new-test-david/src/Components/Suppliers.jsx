@@ -139,8 +139,56 @@ export const Subsupplier = (props) => {
   );
 };
 
-Suppliers.propTypes = {
-    onChange: PropTypes.func,
+const PriorityData= [
+  { label: 'Bajo', value: 1},
+  { label: 'Medio', value: 2 },
+  { label: 'Alto', value: 3 }
+
+]
+
+const StatusData= [
+  { label: 'Nuevo', value: 1},
+  { label: 'En progreso', value: 2 },
+  { label: 'Finalizado', value: 3 }
+
+]
+
+export const Priority = ({ onChange }) => {
+    const [selectedSupplier, setSelectedSupplier] = useState();
+  
+    const handleSelectChange = (event) => {
+      setSelectedSupplier(event.value);
+      onChange(event.value);
+    };
+  
+    return (
+      <div className="Suppliers-container">
+        <Select
+          defaultValue={{ label: 'Selecciona una prioridad', value: 1 }}
+          options={PriorityData}
+          onChange={handleSelectChange}
+        />
+      </div>
+    );
+  };
+
+  export const Status = ({ onChange }) => {
+    const [selectedSupplier, setSelectedSupplier] = useState();
+  
+    const handleSelectChange = (event) => {
+      setSelectedSupplier(event.value);
+      onChange(event.value);
+    };
+  
+    return (
+      <div className="Suppliers-container">
+        <Select
+          defaultValue={{ label: 'Selecciona un estado', value: 1 }}
+          options={StatusData}
+          onChange={handleSelectChange}
+        />
+      </div>
+    );
   };
 
 
