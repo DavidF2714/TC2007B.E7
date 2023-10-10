@@ -8,7 +8,6 @@ import {
     MDBCheckbox,
 } from 'mdb-react-ui-kit';
 
-import './css/alert.css';
 
 const Registrarse = () => {
 

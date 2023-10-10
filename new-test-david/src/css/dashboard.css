@@ -126,6 +126,7 @@ body {
   .main-title {
     display: flex;
     justify-content: space-between;
+    color: gray;
   }
   
   .main-cards {
@@ -135,7 +136,7 @@ body {
     margin: 15px 0;
   }
   
-  .card {
+  .card-daniel {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -143,29 +144,29 @@ body {
     border-radius: 5px;
   }
   
-  .card:first-child {
+  .card-daniel:first-child {
     background-color: #2962ff;
   }
   
-  .card:nth-child(2) {
+  .card-daniel:nth-child(2) {
     background-color: #ff6d00;
   }
   
-  .card:nth-child(3) {
+  .card-daniel:nth-child(3) {
     background-color: #2e7d32;
   }
   
-  .card:nth-child(4) {
+  .card-daniel:nth-child(4) {
     background-color: #d50000;
   }
   
-  .card-inner {
+  .card-daniel-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
   
-  .card-inner > .card_icon {
+  .card-daniel-inner > .card-daniel_icon {
     font-size: 25px;
   }
   
