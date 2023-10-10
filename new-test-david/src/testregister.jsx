@@ -7,7 +7,7 @@ import {
     MDBInput,
     MDBCheckbox,
 } from 'mdb-react-ui-kit';
-
+import { useNotify } from "react-admin";
 
 const Registrarse = () => {
 
@@ -16,6 +16,8 @@ const Registrarse = () => {
         password: "",
         fullName: "",
     });
+
+    const notify= useNotify();
 
     const [usuarioCreado, setUsuarioCreado] = useState(false);
     const [redireccionar, setRedireccionar] = useState(false);
@@ -44,6 +46,7 @@ const Registrarse = () => {
                 }
 
                 setRegistroExitoso(true);
+                notify('Registro Exitoso',{type:"success"})
                 setDatos({
                     username:"",
                     password:"",
@@ -63,7 +66,7 @@ const Registrarse = () => {
             // Redirige a la página de inicio después de 2 segundos
             setTimeout(() => {
                 setRedireccionar(true);
-            }, 2000);
+            }, 1500);
         }, 1000);
 
     };
@@ -78,7 +81,6 @@ const Registrarse = () => {
             <MDBCard className='m-5' style={{ maxWidth: '600px' }}>
                 <MDBCardBody className='px-5'>
                     <h2 className="text-uppercase text-center mb-5">Crear una cuenta</h2>
-                    {registroExitoso && (<div className="aler alert-success" role="alert">Registro Exitoso</div>)}
                     <MDBInput wrapperClass='mb-4' label='Nombre Completo' size='lg' id='fullName' type='text' name="fullName" value={datos.fullName} onChange={handleChange} />
                     <MDBInput wrapperClass='mb-4' label='Usuario' size='lg' id='username' type='text' name="username" value={datos.username} onChange={handleChange} />
                     <MDBInput wrapperClass='mb-4' label='Contraseña' size='lg' id='password' type='password' name="password" value={datos.password} onChange={handleChange} />
