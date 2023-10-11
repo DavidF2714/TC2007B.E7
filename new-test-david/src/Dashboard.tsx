@@ -6,10 +6,6 @@ import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "./theme";
 import { mockTransactions } from "./Components/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "./Components/Header";
 import LineChart from "./Components/LineChart";
 import GeographyChart from "./Components/GeographyChart";
@@ -20,6 +16,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SchoolIcon from '@mui/icons-material/School';
+import authProvider from './AuthProvider';
 
 export const Dashboard = () => {
     const theme = useTheme();
@@ -30,6 +27,8 @@ export const Dashboard = () => {
     const [ticketsEnCurso, setTicketsEnCurso] = useState(0);
     const [ticketsCompletados, setTicketsCompletados] = useState(0);
     const [aulasRegistradas, setAulasRegistradas] = useState(0);
+    const [tickets, setTickets] = useState<any[]>([]);
+
 
     useEffect(() => {
         // Lógica para contar todos los tickets
@@ -81,7 +80,8 @@ export const Dashboard = () => {
                 console.error('Error al obtener tickets en curso:', error);
             });
 
-    dataProvider
+        // Lógica para contar aulas registradas
+        dataProvider
             .getList('tickets', {
                 pagination: { page: 1, perPage: 100 }, // Ajusta el valor de perPage según la cantidad máxima de tickets
                 sort: { field: 'id', order: 'DESC' },
@@ -94,7 +94,21 @@ export const Dashboard = () => {
             .catch((error) => {
                 console.error('Error al obtener aulas registradas:', error);
             });
-    }, []);
+
+            // Lógica para obtener la lista de tickets
+        dataProvider
+            .getList('tickets', {
+                pagination: { page: 1, perPage: 5 }, // Ajusta perPage según tus necesidades
+                sort: { field: 'id', order: 'DESC' },
+                filter: {} // Puedes ajustar esto según tus necesidades de filtro
+            })
+            .then((response) => {
+                setTickets(response.data);
+            })
+            .catch((error) => {
+                console.error('Error al obtener la lista de tickets:', error);
+            });
+}, []);
 
     return (
         <Box m="20px">
@@ -217,14 +231,14 @@ export const Dashboard = () => {
                     fontWeight="600"
                     color={colors.grey[100]}
                   >
-                    Revenue Generated
+                    Categorías de Tickets
                   </Typography>
                   <Typography
                     variant="h3"
                     fontWeight="bold"
                     color={colors.greenAccent[500]}
                   >
-                    $59,342.32
+                    categoria
                   </Typography>
                 </Box>
                 <Box>
@@ -252,12 +266,12 @@ export const Dashboard = () => {
                 p="15px"
               >
                 <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                  Recent Transactions
+                  Tickets Recientes
                 </Typography>
               </Box>
-              {mockTransactions.map((transaction, i) => (
+              {tickets.map((ticket, i) => (
                 <Box
-                  key={`${transaction.txId}-${i}`}
+                key={`ticket-${i}`}
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
@@ -270,18 +284,18 @@ export const Dashboard = () => {
                       variant="h5"
                       fontWeight="600"
                     >
-                      {transaction.txId}
+                      {ticket.aula} Aula
                     </Typography>
                     <Typography color={colors.grey[100]}>
-                      {transaction.user}
+                      {ticket.coordinador}
                     </Typography>
                   </Box>
-                  <Box color={colors.grey[100]}>{transaction.date}</Box>
+                  <Box color={colors.grey[100]}>{ticket.timestamp}</Box>
                   <Box
                     p="5px 10px"
                     borderRadius="4px"
                   >
-                    ${transaction.cost}
+                    {ticket.estado}
                   </Box>
                 </Box>
               ))}

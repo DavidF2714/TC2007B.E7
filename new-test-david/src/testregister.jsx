@@ -34,7 +34,7 @@ const Registrarse = () => {
 
     const handleSendData = async () => {
         if (datos.username && datos.password && datos.fullName && datos.permissions) {
-            const request = await new Request('http://localhost:1337/registrarse', {
+            const request = await new Request('https://localhost:1337/registrarse', {
                 method: 'POST',
                 body: JSON.stringify(datos),
                 headers: new Headers({ 'Content-Type': 'application/json' }),
