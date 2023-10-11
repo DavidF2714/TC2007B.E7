@@ -8,13 +8,11 @@ import {
   Create,
   DateInput,
   SelectInput,
-  useAuthenticated,
-  required
+  useAuthenticated
 } from 'react-admin';
-import { Suppliers } from './Components/Suppliers';
-import { Subsupplier } from './Components/Suppliers';
 import Select from 'react-select/dist/declarations/src/Select';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { required } from 'ra-core';
 
 export const TicketList = () => (
   <List>
@@ -55,26 +53,81 @@ export const TicketEdit = () => (
     </SimpleForm>
   </Edit>
 );
+type SubCategory = { id: string; name: string;};
+type SubCategoriesOptions = Record<string, SubCategory[]>;
 
-
-
-
+const subCategoriesOptions: SubCategoriesOptions = {
+    'Servicios':[
+          { id: 'Agua', name:'Agua'},
+          { id: 'Luz', name: 'Luz'},
+          { id: 'Telefono', name: 'Telefono'},
+          { id: 'Basura', name: 'Basura'},
+          { id: 'Limpieza del Aula', name: 'Limpieza del Aula'}
+        ],
+    'Digital':[
+          { id: 'Internet/Servidores/Equipo', name:'Internet/Servidores/Equipo'},
+          { id: 'Software', name:'Software'},
+          { id: 'Hardware', name:'Hardware'},
+          { id: 'Cámara de Seguridad', name:'Cámara de Seguridad'},
+          { id: 'Soporte Técnico Presencial y Remoto', name:'Soporte Técnico Presencial y Remoto'},
+        ],
+    'Infraestructura':[
+          { id: 'Paredes', name:'Paredes'},
+          { id: 'Techos', name:'Techos'},
+          { id: 'Ventanas', name:'Ventanas'},
+          { id: 'Puertas', name:'Puertas'},
+          { id: 'Aulas en general', name:'Aulas en general'}
+        ],
+     'Recursos Humanos':[
+          { id: 'Permisos', name:'Permisos'},
+          { id: 'Asistencias', name:'Asistencias'},
+          { id: 'Salud', name:'Salud'},
+          { id: 'Tramites', name:'Tramites'},
+          { id: 'Honorarios', name:'Honorarios'},
+        ],
+    'Beneficiarios':[
+          { id: 'Asistencias', name:'Asistencias'},
+          { id: 'Documentacion', name:'Documentacion'},
+          { id: 'Apoyo Academico', name:'Apoyo Academico'},
+          { id: 'Salud', name:'Salud'},
+          { id: 'Seguridad, Bullying', name:'Seguridad, Bullying' },
+        ],
+    'Mobiliario':[
+          { id: 'Sillas, Butacas', name:'Sillas, Butacas' },
+          { id: 'Escritorios', name:'Escritorios'},
+          { id: 'Pizarrones', name:'Pizarrones'},
+          { id: 'Cafetería', name:'Cafetería'},
+          { id: 'Estantes, Archiveros', name:'Estantes, Archiveros' },
+        ],
+    'Seguridad':[
+          { id: 'Delicuencia', name:'Delicuencia'},
+          { id: 'Robo', name:'Robo' },
+          { id: 'Bandalismo', name:'Bandalismo'},
+          { id: 'Imagen Intistucional', name:'Imagen Intistucional'},
+        ],
+    'Materiales':[
+          { id: 'Educativos', name:'Educativos'},
+          { id: 'Papeleria', name:'Papeleria' },
+          { id: 'Limpieza', name:'Limpieza'},
+        ],
+    'Fenómeno Metereológico':[
+          { id: 'Inundaciones', name:'Inundaciones'},
+          { id: 'Incendios', name:'Incendios' },
+          { id: 'Sismos', name:'Sismos' },
+        ]
+        };
 
 export const TicketCreate = () => {
   const auth = useAuthenticated();
-  const [selectedSupplier, setSelectedSupplier] = useState<number | undefined>();
-
-  const handleSupplierChange = (value: number | undefined) => {
-    setSelectedSupplier(value);
-  };
-
+  const [selectedCategory, setSelectedCategory] = useState('1');
+  const [subCategories, setSubCategories] = useState(subCategoriesOptions[selectedCategory] || []);
+  useEffect(() => {
+  setSubCategories(subCategoriesOptions[selectedCategory] || []);
+  }, [selectedCategory]);
   const currentTimestamp = new Date();
 
   const identity = JSON.parse(localStorage.getItem("identity") || "{}");
   const fullName = identity ? identity.fullName : '';
-
-
-
   const formattedTimestamp = currentTimestamp.toLocaleString("en-US", {
     year: "numeric",
     month: "2-digit",
@@ -82,7 +135,6 @@ export const TicketCreate = () => {
     hour: "2-digit",
     minute: "2-digit",
   });
-
   return (
     <Create>
       <SimpleForm >
@@ -90,9 +142,34 @@ export const TicketCreate = () => {
         <TextInput source="aula" label="Aula" validate={required()} />
         <TextInput source="coordinador" label="Nombre del Coordinador" defaultValue={fullName} type='text' disabled validate={required()} />
         <TextInput source='folio' label="Número de Oficio" />
-        <Suppliers onChange={handleSupplierChange} />
-        <Subsupplier value={selectedSupplier} />
-        <TextInput source='estado' label="Estado" defaultValue="Nuevo" disabled validate={required()} />
+        <SelectInput validate={required()}
+          source='categoria'
+          label='Categoría'
+          choices={[
+          { id: 'Servicios', name: 'Servicios'},
+          { id: 'Digital', name: 'Digital'},
+          { id: 'Infraestructura',name: 'Infraestructura'},
+          { id: 'Recursos Humanos',name: 'Recursos humanos'},
+          { id: 'Beneficiarios', name:'Beneficiario'},
+          { id: 'Mobiliario', name: 'Mobiliario'},
+          { id: 'Seguridad', name:'Seguridad'},
+          { id: 'Materiales', name: 'Materiales'},
+          { id: 'Fenómeno Metereológico', name:'Fenómeno Metereológico'}
+        ]} onChange={(event) => {
+          const newValue = event.target.value;
+          console.log(event.target.value);
+          setSelectedCategory(newValue);
+        }}/>
+        <SelectInput
+          validate={required()}
+          source="subcategoria"
+          label='Subcategoría'
+          choices={subCategories}
+        />
+        <SelectInput validate={required()} source='estado' label="Estado" choices={[
+        { id: 'en_curso', name: 'En Curso' },
+        { id: 'completado', name: 'Completado' }
+      ]} />
         <SelectInput validate={required()} source='prioridad' label="Prioridad" choices={[
           { id: 'bajo', name: 'Bajo' },
           { id: 'medio', name: 'Media' },
