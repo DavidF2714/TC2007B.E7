@@ -167,8 +167,8 @@ export const TicketCreate = () => {
           choices={subCategories}
         />
         <SelectInput validate={required()} source='estado' label="Estado" choices={[
-        { id: 'en_curso', name: 'En Curso' },
-        { id: 'completado', name: 'Completado' }
+        { id: 'En curso', name: 'En Curso' },
+        { id: 'Completado', name: 'Completado' }
       ]} />
         <SelectInput validate={required()} source='prioridad' label="Prioridad" choices={[
           { id: 'bajo', name: 'Bajo' },
