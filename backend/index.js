@@ -5,6 +5,9 @@ const bodyParser=require('body-parser')
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
 
+const https=require("https")
+const fs=require("fs")
+
 let db;
 const app=express();
 app.use(cors());
@@ -237,7 +240,12 @@ app.delete("/tickets/:id", async (request, response)=>{
     }
 })
 
-app.listen(1337, ()=>{
+https.createServer({cert: fs.readFileSync("backend.cer"), key: fs.readFileSync("backend.key")}, app).listen(1337, ()=>{
     connectDB();
-    console.log("Servidor escuchando en puerto 1337")
+    console.log("Servidor escuchando en puerto 1337 con HTTPS")
 })
+
+// app.listen(1337, ()=>{
+//     connectDB();
+//     console.log("Servidor escuchando en puerto 1337")
+// })

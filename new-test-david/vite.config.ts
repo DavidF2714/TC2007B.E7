@@ -8,6 +8,10 @@ export default defineConfig({
         'process.env': process.env,
     },
     server: {
+        https: {
+            key: './frontend.key',
+            cert: './frontend.cer',
+        },
         host: true,
     },
     base: './',
