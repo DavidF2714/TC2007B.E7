@@ -17,8 +17,9 @@ import BarChart from "./Components/BarChart";
 import StatBox from "./Components/StatBox";
 import ProgressCircle from "./Components/ProgressCircle";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { allowedNodeEnvironmentFlags } from 'process';
-
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import SchoolIcon from '@mui/icons-material/School';
 
 export const Dashboard = () => {
     const theme = useTheme();
@@ -155,7 +156,7 @@ export const Dashboard = () => {
                 progress="0.50"
                 increase="+21%"
                 icon={
-                  <PointOfSaleIcon
+                  <AccessTimeFilledIcon
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
                   />
                 }
@@ -173,7 +174,7 @@ export const Dashboard = () => {
                 progress="0.30"
                 increase="+5%"
                 icon={
-                  <PersonAddIcon
+                  <CheckCircleIcon
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
                   />
                 }
@@ -191,7 +192,7 @@ export const Dashboard = () => {
                 progress="0.80"
                 increase="+43%"
                 icon={
-                  <TrafficIcon
+                  <SchoolIcon
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
                   />
                 }
