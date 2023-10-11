@@ -1,7 +1,6 @@
 import { Admin, CustomRoutes, Resource, ShowGuesser, ThemeProvider, defaultDarkTheme, defaultLightTheme, defaultTheme } from "react-admin";
 import { dataProvider } from './dataProvider';
 import { Dashboard } from "./Dashboard";
-import './css/dashboard.css'
 import { AuthProvider} from "react-admin";
 import { i18nProvider } from "./i18nProvider";
 import React from "react";
@@ -13,9 +12,9 @@ import authProvider from "./AuthProvider";
 import CustomLoginPage from "./testlogin";
 
 export const App = () => (
-    <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} darkTheme={defaultDarkTheme} theme={defaultLightTheme} defaultTheme="light" dashboard={Dashboard} i18nProvider={i18nProvider} loginPage={CustomLoginPage}>
+    <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} darkTheme={defaultDarkTheme} theme={defaultLightTheme} defaultTheme="light" i18nProvider={i18nProvider} loginPage={CustomLoginPage}>
         <Resource name="tickets" list={TicketList} edit={TicketEdit} create={TicketCreate} options={{label:'Tickets'}}/>
-        <Resource name="dashboard"/>
+        <Resource name="dashboard" list={Dashboard} options={{label:'dashboard'}}/>
         <CustomRoutes noLayout>
             <Route path="/registrarse" element={<Registrarse />}/>
         </CustomRoutes>

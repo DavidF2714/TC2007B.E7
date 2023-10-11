@@ -1,11 +1,9 @@
-import { Card, CardContent, CardHeader } from "@mui/material";
-import React from 'react'
-import 
-{ BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill}
- from 'react-icons/bs'
- import 
- { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } 
- from 'recharts';
+import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill} from 'react-icons/bs'
+import { AiFillCheckSquare } from 'react-icons/ai'
+import './css/dashboard.css'
+import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create} from 'react-admin';
+
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 
  const data = [
     {
@@ -58,31 +56,35 @@ export const Dashboard = () => (
         </div>
 
         <div className='main-cards'>
-            <div className='card'>
-                <div className='card-inner'>
-                    <h3>TICKETS</h3>
-                    <BsFillArchiveFill className='card_icon'/>
+            <div className='card-daniel'>
+                <div className='card-daniel-inner'>
+                    <h3>Tickets Totales</h3>
+                    <BsFillArchiveFill className='card-daniel_icon'/>
                 </div>
-                <h1>300</h1>
+                <h1>
+                <Datagrid rowClick="edit">
+    <TextField source="status" label="Status" /> {/* Mostrar solo el campo "status" */}
+  </Datagrid>
+                </h1>
             </div>
-            <div className='card'>
-                <div className='card-inner'>
-                    <h3>USUARIOS</h3>
-                    <BsFillGrid3X3GapFill className='card_icon'/>
+            <div className='card-daniel'>
+                <div className='card-daniel-inner'>
+                    <h3>Aulas Totales</h3>
+                    <BsFillGrid3X3GapFill className='card-daniel_icon'/>
                 </div>
                 <h1>12</h1>
             </div>
-            <div className='card'>
-                <div className='card-inner'>
-                    <h3>RESUELTOS</h3>
-                    <BsPeopleFill className='card_icon'/>
+            <div className='card-daniel'>
+                <div className='card-daniel-inner'>
+                    <h3>Tickets Resueltos</h3>
+                    <AiFillCheckSquare className='card-daniel_icon'/>
                 </div>
                 <h1>33</h1>
             </div>
-            <div className='card'>
-                <div className='card-inner'>
-                    <h3>ALERTAS</h3>
-                    <BsFillBellFill className='card_icon'/>
+            <div className='card-daniel'>
+                <div className='card-daniel-inner'>
+                    <h3>Tickets No Resueltos</h3>
+                    <BsFillBellFill className='card-daniel_icon'/>
                 </div>
                 <h1>42</h1>
             </div>

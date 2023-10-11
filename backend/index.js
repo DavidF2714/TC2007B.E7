@@ -98,7 +98,6 @@ app.post("/tickets", async (request, response)=>{
         let id=data.length+1;
         addValue["id"]=id;
         addValue["usuario"]=verifiedToken.usuario;
-        addValue["timestamp"]=new Date();
         data=await db.collection('tickets').insertOne(addValue);
         response.json(data);
     }catch{
@@ -121,17 +120,79 @@ app.put("/tickets/:id", async (request, response)=>{
     }
 })       
 
+//Get
+app.get("/dashboard", async (request, response)=>{
+    try{
+        let token=request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let authData=await db.collection("usuarios").findOne({"usuario": verifiedToken.usuario})
+        let parametersFind={}
+        if(authData.permissions=="Coordinador"){
+            parametersFind["usuario"]=verifiedToken.usuario;
+        }
+        
+        if ("_sort" in request.query){
+            let sortBy=request.query._sort;
+            let sortOrder=request.query._order=="ASC"?1:-1;
+            let start=Number(request.query._start);
+            let end=Number(request.query._end);
+            let sorter={}
+            sorter[sortBy]=sortOrder
+            let data=await db.collection('tickets').find(parametersFind).sort(sorter).project({_id:0}).toArray();
+            response.set('Access-Control-Expose-Headers', 'X-Total-Count')
+            response.set('X-Total-Count', data.length)
+            data=data.slice(start, end)
+            response.json(data);
+        }else if ("id" in request.query){
+            let data=[]
+            for (let index=0; index<request.query.id.length; index++){
+                let dataObtain=await db.collection('tickets').find({id: Number(request.query.id[index])}).project({_id:0}).toArray();
+                data=await data.concat(dataObtain)
+            }
+            response.json(data);
+        }else {
+            let data=[]
+            data=await db.collection('tickets').find(request.query).project({_id:0}).toArray();
+            response.set('Access-Control-Expose-Headers', 'X-Total-Count')
+            response.set('X-Total-Count', data.length)
+            response.json(data)
+        }
+    }catch{
+        response.sendStatus(401);
+    }
+})
+
+//getOne
+app.get("/dashboard/:id", async (request, response)=>{
+    try{
+        let token=request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let authData=await db.collection("usuarios").findOne({"usuario": verifiedToken.usuario})
+        let parametersFind={"id": Number(request.params.id)}
+        if(authData.permissions=="Coordinador"){
+            parametersFind["usuario"]=verifiedToken.usuario;
+        }
+        let data=await db.collection('tickets').find(parametersFind).project({_id:0}).toArray();
+        log(verifiedToken.usuario, "ver objeto", request.params.id)
+        response.json(data[0]);
+    }catch{
+        response.sendStatus(401);
+    }
+})    
+
 app.post("/registrarse", async(request, response)=>{
     let user=request.body.username;
     let pass=request.body.password;
     let fname=request.body.fullName;
+    let perm=request.body.permissions;
+
     console.log(request.body)
     let data= await db.collection("usuarios").findOne({"usuario": user});
     if(data==null){
         try{
             bcrypt.genSalt(10, (error, salt)=>{
                 bcrypt.hash(pass, salt, async(error, hash)=>{
-                    let usuarioAgregar={"usuario": user, "password": hash, "fullName": fname};
+                    let usuarioAgregar={"usuario": user, "password": hash, "fullName": fname, "permissions": perm};
                     data= await db.collection("usuarios").insertOne(usuarioAgregar);
                     response.sendStatus(201);
                 })

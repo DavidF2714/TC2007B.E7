@@ -15,6 +15,7 @@ const Registrarse = () => {
         username: "",
         password: "",
         fullName: "",
+        permissions: "",
     });
 
     const notify= useNotify();
@@ -32,8 +33,8 @@ const Registrarse = () => {
     };
 
     const handleSendData = async () => {
-        if (datos.username && datos.password && datos.fullName) {
-            const request = await new Request('http://127.0.0.1:1337/registrarse', {
+        if (datos.username && datos.password && datos.fullName && datos.permissions) {
+            const request = await new Request('http://localhost:1337/registrarse', {
                 method: 'POST',
                 body: JSON.stringify(datos),
                 headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -51,6 +52,7 @@ const Registrarse = () => {
                     username:"",
                     password:"",
                     fullName:"",
+                    permissions:"",
                 });
 
             }
@@ -84,6 +86,7 @@ const Registrarse = () => {
                     <MDBInput wrapperClass='mb-4' label='Nombre Completo' size='lg' id='fullName' type='text' name="fullName" value={datos.fullName} onChange={handleChange} />
                     <MDBInput wrapperClass='mb-4' label='Usuario' size='lg' id='username' type='text' name="username" value={datos.username} onChange={handleChange} />
                     <MDBInput wrapperClass='mb-4' label='Contraseña' size='lg' id='password' type='password' name="password" value={datos.password} onChange={handleChange} />
+                    <MDBInput wrapperClass="mb-4" label='Rol de Permisos' size='lg' id='permissions' type='text' name='permissions' value={datos.permissions} onChange={handleChange} />
                     <MDBBtn size='lg' onClick={handleSendData}>Registrarse</MDBBtn>
                 </MDBCardBody>
             </MDBCard>
