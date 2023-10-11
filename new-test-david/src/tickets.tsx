@@ -42,8 +42,8 @@ export const TicketEdit = () => (
       <TextInput source="subcategoria" disabled />
       <TextInput source='timestamp' label="Fecha y Hora" disabled validate={required()} />
       <SelectInput validate={required()} source='estado' label="Estado" choices={[
-        { id: 'en_curso', name: 'En Curso' },
-        { id: 'completado', name: 'Completado' }
+        { id: 'En curso', name: 'En Curso' },
+        { id: 'Completado', name: 'Completado' }
       ]} />
       <SelectInput validate={required()} source='prioridad' label="Prioridad" choices={[
         { id: 'bajo', name: 'Bajo' },
@@ -70,7 +70,7 @@ export const TicketCreate = () => {
 
   const currentTimestamp = new Date();
 
-  const identity = JSON.parse(localStorage.getItem("identity"));
+  const identity = JSON.parse(localStorage.getItem("identity") || "{}");
   const fullName = identity ? identity.fullName : '';
 
 

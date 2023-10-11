@@ -1,140 +1,351 @@
-import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill} from 'react-icons/bs'
-import { AiFillCheckSquare } from 'react-icons/ai'
-import './css/dashboard.css'
-import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create} from 'react-admin';
+import React, { useEffect, useState } from 'react';
+import { useAuthenticated } from 'react-admin';
+import { useDataProvider } from 'react-admin';
 
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { tokens } from "./theme";
+import { mockTransactions } from "./Components/mockData";
+import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import EmailIcon from "@mui/icons-material/Email";
+import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import TrafficIcon from "@mui/icons-material/Traffic";
+import Header from "./Components/Header";
+import LineChart from "./Components/LineChart";
+import GeographyChart from "./Components/GeographyChart";
+import BarChart from "./Components/BarChart";
+import StatBox from "./Components/StatBox";
+import ProgressCircle from "./Components/ProgressCircle";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { allowedNodeEnvironmentFlags } from 'process';
 
- const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
-export const Dashboard = () => (
-    <main className='main-container'>
-        <div className='main-title'>
-            <h3>PANEL</h3>
-        </div>
 
-        <div className='main-cards'>
-            <div className='card-daniel'>
-                <div className='card-daniel-inner'>
-                    <h3>Tickets Totales</h3>
-                    <BsFillArchiveFill className='card-daniel_icon'/>
-                </div>
-                <h1>
-                <Datagrid rowClick="edit">
-    <TextField source="status" label="Status" /> {/* Mostrar solo el campo "status" */}
-  </Datagrid>
-                </h1>
-            </div>
-            <div className='card-daniel'>
-                <div className='card-daniel-inner'>
-                    <h3>Aulas Totales</h3>
-                    <BsFillGrid3X3GapFill className='card-daniel_icon'/>
-                </div>
-                <h1>12</h1>
-            </div>
-            <div className='card-daniel'>
-                <div className='card-daniel-inner'>
-                    <h3>Tickets Resueltos</h3>
-                    <AiFillCheckSquare className='card-daniel_icon'/>
-                </div>
-                <h1>33</h1>
-            </div>
-            <div className='card-daniel'>
-                <div className='card-daniel-inner'>
-                    <h3>Tickets No Resueltos</h3>
-                    <BsFillBellFill className='card-daniel_icon'/>
-                </div>
-                <h1>42</h1>
-            </div>
-        </div>
+export const Dashboard = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const auth = useAuthenticated();
+    const dataProvider = useDataProvider();
+    const [ticketCount, setTicketCount] = useState(0);
+    const [ticketsEnCurso, setTicketsEnCurso] = useState(0);
+    const [ticketsCompletados, setTicketsCompletados] = useState(0);
+    const [aulasRegistradas, setAulasRegistradas] = useState(0);
 
-        <div className='charts'>
-            <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-            width={500}
-            height={300}
-            data={data}
-            margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-            }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="pv" fill="#8884d8" />
-                <Bar dataKey="uv" fill="#82ca9d" />
-                </BarChart>
-            </ResponsiveContainer>
+    useEffect(() => {
+        // Lógica para contar todos los tickets
+        dataProvider
+            .getList('tickets', {
+                pagination: { page: 1, perPage: 1 },
+                sort: { field: 'id', order: 'DESC' },
+                filter: {} // Puedes ajustar esto según tus necesidades de filtro
+            })
+            .then((response) => {
+                if (response.data && response.data.length > 0) {
+                    setTicketCount(response.data[0].id); // Establece el contador en el último ID
+                } else {
+                    setTicketCount(0); // Si no hay tickets, el contador comienza en 0
+                }
+            })
+            .catch((error) => {
+                console.error('Error al obtener los tickets:', error);
+            });
 
-            <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                width={500}
-                height={300}
-                data={data}
-                margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
+        // Lógica para contar tickets con estado "En curso"
+        dataProvider
+            .getList('tickets', {
+                pagination: { page: 1, perPage: 100 },
+                sort: { field: 'id', order: 'DESC' },
+                filter: { estado: 'En curso' } // Ajusta esto a tu campo de estado
+            })
+            .then((response) => {
+                // Filtra los resultados por el estado "En curso"
+                const enCursoTickets = response.data.filter(ticket => ticket.estado === 'En curso');
+                setTicketsEnCurso(enCursoTickets.length);
+            })
+            .catch((error) => {
+                console.error('Error al obtener tickets en curso:', error);
+            });
+
+        dataProvider
+            .getList('tickets', {
+                pagination: { page: 1, perPage: 100 },
+                sort: { field: 'id', order: 'DESC' },
+                filter: { estado: 'Completado' } // Ajusta esto a tu campo de estado
+            })
+            .then((response) => {
+                // Filtra los resultados por el estado "En curso"
+                const completadosTickets = response.data.filter(ticket => ticket.estado === 'Completado');
+                setTicketsCompletados(completadosTickets.length);
+            })
+            .catch((error) => {
+                console.error('Error al obtener tickets en curso:', error);
+            });
+
+    dataProvider
+            .getList('tickets', {
+                pagination: { page: 1, perPage: 100 }, // Ajusta el valor de perPage según la cantidad máxima de tickets
+                sort: { field: 'id', order: 'DESC' },
+                filter: {} // Puedes ajustar esto según tus necesidades de filtro
+            })
+            .then((response) => {
+                const uniqueAulas = new Set(response.data.map(ticket => ticket.aula));
+                setAulasRegistradas(uniqueAulas.size);
+            })
+            .catch((error) => {
+                console.error('Error al obtener aulas registradas:', error);
+            });
+    }, []);
+
+    return (
+        <Box m="20px">
+          {/* HEADER */}
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Header title="DASHBOARD" subtitle="Bienvenido" />
+    
+            <Box>
+              <Button
+                sx={{
+                  backgroundColor: colors.blueAccent[700],
+                  color: colors.grey[100],
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  padding: "10px 30px",
                 }}
+              >
+                <DownloadOutlinedIcon sx={{ mr: "10px" }} />
+                Descargar Reporte
+              </Button>
+            </Box>
+          </Box>
+    
+          {/* GRID & CHARTS */}
+          <Box
+            display="grid"
+            gridTemplateColumns="repeat(12, 1fr)"
+            gridAutoRows="140px"
+            gap="20px"
+          >
+            {/* ROW 1 */}
+            <Box
+                gridColumn="span 3"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                 >
+              <StatBox
+                title={ticketCount}
+                subtitle="Tickets Generados"
+                progress="0.75"
+                increase="+14%"
+                icon={
+                  <AddCircleIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                  />
+                }
+              />
+            </Box>
+            <Box
+              gridColumn="span 3"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <StatBox
+                title={ticketsEnCurso}
+                subtitle="Tickets En Curso"
+                progress="0.50"
+                increase="+21%"
+                icon={
+                  <PointOfSaleIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                  />
+                }
+              />
+            </Box>
+            <Box
+              gridColumn="span 3"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <StatBox
+                title={ticketsCompletados}
+                subtitle="Tickets Completados"
+                progress="0.30"
+                increase="+5%"
+                icon={
+                  <PersonAddIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                  />
+                }
+              />
+            </Box>
+            <Box
+              gridColumn="span 3"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <StatBox
+                title={aulasRegistradas}
+                subtitle="Aulas Registradas"
+                progress="0.80"
+                increase="+43%"
+                icon={
+                  <TrafficIcon
+                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                  />
+                }
+              />
+            </Box>
+    
+            {/* ROW 2 */}
+            <Box
+              gridColumn="span 8"
+              gridRow="span 2"
+            >
+              <Box
+                mt="25px"
+                p="0 30px"
+                display="flex "
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Box>
+                  <Typography
+                    variant="h5"
+                    fontWeight="600"
+                    color={colors.grey[100]}
+                  >
+                    Revenue Generated
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    fontWeight="bold"
+                    color={colors.greenAccent[500]}
+                  >
+                    $59,342.32
+                  </Typography>
+                </Box>
+                <Box>
+                  <IconButton>
+                    <DownloadOutlinedIcon
+                      sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
+                    />
+                  </IconButton>
+                </Box>
+              </Box>
+              <Box height="250px" m="-20px 0 0 0">
+                <LineChart isDashboard={true} />
+              </Box>
+            </Box>
+            <Box
+              gridColumn="span 4"
+              gridRow="span 2"
+              overflow="auto"
+            >
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                borderBottom={`4px solid ${colors.primary[500]}`}
+                p="15px"
+              >
+                <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+                  Recent Transactions
+                </Typography>
+              </Box>
+              {mockTransactions.map((transaction, i) => (
+                <Box
+                  key={`${transaction.txId}-${i}`}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  borderBottom={`4px solid ${colors.primary[500]}`}
+                  p="15px"
                 >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                </LineChart>
-            </ResponsiveContainer>
+                  <Box>
+                    <Typography
+                      color={colors.greenAccent[500]}
+                      variant="h5"
+                      fontWeight="600"
+                    >
+                      {transaction.txId}
+                    </Typography>
+                    <Typography color={colors.grey[100]}>
+                      {transaction.user}
+                    </Typography>
+                  </Box>
+                  <Box color={colors.grey[100]}>{transaction.date}</Box>
+                  <Box
+                    p="5px 10px"
+                    borderRadius="4px"
+                  >
+                    ${transaction.cost}
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+    
+            {/* ROW 3 */}
+            <Box
+              gridColumn="span 4"
+              gridRow="span 2"
+              p="30px"
+            >
+              <Typography variant="h5" fontWeight="600">
+                Campaign
+              </Typography>
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                mt="25px"
+              >
+                <ProgressCircle size="125" />
+                <Typography
+                  variant="h5"
+                  color={colors.greenAccent[500]}
+                  sx={{ mt: "15px" }}
+                >
+                  $48,352 revenue generated
+                </Typography>
+                <Typography>Includes extra misc expenditures and costs</Typography>
+              </Box>
+            </Box>
+            <Box
+              gridColumn="span 4"
+              gridRow="span 2"
+            >
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                sx={{ padding: "30px 30px 0 30px" }}
+              >
+                Sales Quantity
+              </Typography>
+              <Box height="250px" mt="-20px">
+                <BarChart isDashboard={true} />
+              </Box>
+            </Box>
+            <Box
+              gridColumn="span 4"
+              gridRow="span 2"
+              padding="30px"
+            >
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                sx={{ marginBottom: "15px" }}
+              >
+                Geography Based Traffic
+              </Typography>
+              <Box height="200px">
+                <GeographyChart isDashboard={true} />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      );
+    };
 
-        </div>
-    </main>
-);
+
