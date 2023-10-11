@@ -1,5 +1,10 @@
+import React from 'react';
 import { Layout } from 'react-admin';
-import { MyAppBar } from './MyAppBar';
 
-
-export const MyLayout = props => <Layout {...props} appBar={MyAppBar} />;
+export const MyLayout = (props) => (
+  <Layout {...props}>
+    <div style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 64px)' }}>
+      {props.children}
+    </div>
+  </Layout>
+);
