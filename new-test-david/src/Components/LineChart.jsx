@@ -2,14 +2,18 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { mockLineData as data } from "./mockData";
+import { Prueba } from './lineData'
 
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const prueba = Prueba();
+  console.log(data)
 
   return (
+    <>
     <ResponsiveLine
-      data={data}
+      data={prueba}
       theme={{
         axis: {
           domain: {
@@ -111,6 +115,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         },
       ]}
     />
+    </>
   );
 };
 
