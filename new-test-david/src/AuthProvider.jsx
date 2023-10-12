@@ -31,7 +31,7 @@ const authProvider = {
     if (status === 401 || status === 403) {
       localStorage.removeItem("auth");
       localStorage.removeItem("identity");
-      return Promise.reject();
+      return Promise.reject(); 
     }
     return Promise.resolve();
   },
@@ -42,7 +42,23 @@ const authProvider = {
       return Promise.reject();
     }
   },
-  getPermissions: () => { return Promise.resolve() },
+  getPermissions: () => {
+    const token = localStorage.getItem('auth'); // Reemplaza con tu forma de almacenar el token
+    if (token) {
+      // Decodificar el token manualmente (puede variar dependiendo de tu token)
+      const tokenParts = token.split('.');
+      if (tokenParts.length === 3) {
+        const payload = JSON.parse(atob(tokenParts[1]));
+        if (payload && payload.permissions) {
+          const userPermissions = payload.permissions;
+          console.log('Permisos del usuario:', userPermissions); // Agrega un console.log aquí
+          return Promise.resolve(userPermissions);
+        }
+      }
+    }
+    // En caso de no encontrar permisos, devuelve un arreglo vacío u otro valor predeterminado
+    return Promise.resolve([]);
+  },
 };
 
 export default authProvider;
