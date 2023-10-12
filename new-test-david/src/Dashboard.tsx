@@ -4,7 +4,6 @@ import { useDataProvider } from 'react-admin';
 
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "./theme";
-import { mockTransactions } from "./Components/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import Header from "./Components/Header";
 import LineChart from "./Components/LineChart";
@@ -16,19 +15,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SchoolIcon from '@mui/icons-material/School';
-import authProvider from './AuthProvider';
 
 export const Dashboard = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const auth = useAuthenticated();
     const dataProvider = useDataProvider();
     const [ticketCount, setTicketCount] = useState(0);
     const [ticketsEnCurso, setTicketsEnCurso] = useState(0);
     const [ticketsCompletados, setTicketsCompletados] = useState(0);
     const [aulasRegistradas, setAulasRegistradas] = useState(0);
     const [tickets, setTickets] = useState<any[]>([]);
-
+    const [mostRepeatedCategory, setMostRepeatedCategory] = useState<string>('');
 
     useEffect(() => {
         // Lógica para contar todos los tickets
@@ -36,13 +33,13 @@ export const Dashboard = () => {
             .getList('tickets', {
                 pagination: { page: 1, perPage: 1 },
                 sort: { field: 'id', order: 'DESC' },
-                filter: {} // Puedes ajustar esto según tus necesidades de filtro
+                filter: {} 
             })
             .then((response) => {
                 if (response.data && response.data.length > 0) {
-                    setTicketCount(response.data[0].id); // Establece el contador en el último ID
+                    setTicketCount(response.data[0].id); 
                 } else {
-                    setTicketCount(0); // Si no hay tickets, el contador comienza en 0
+                    setTicketCount(0);
                 }
             })
             .catch((error) => {
@@ -54,10 +51,9 @@ export const Dashboard = () => {
             .getList('tickets', {
                 pagination: { page: 1, perPage: 100 },
                 sort: { field: 'id', order: 'DESC' },
-                filter: { estado: 'En curso' } // Ajusta esto a tu campo de estado
+                filter: { estado: 'En curso' }
             })
             .then((response) => {
-                // Filtra los resultados por el estado "En curso"
                 const enCursoTickets = response.data.filter(ticket => ticket.estado === 'En curso');
                 setTicketsEnCurso(enCursoTickets.length);
             })
@@ -65,14 +61,14 @@ export const Dashboard = () => {
                 console.error('Error al obtener tickets en curso:', error);
             });
 
+        // Lógica para contar tickets con estado "Completado"
         dataProvider
             .getList('tickets', {
                 pagination: { page: 1, perPage: 100 },
                 sort: { field: 'id', order: 'DESC' },
-                filter: { estado: 'Completado' } // Ajusta esto a tu campo de estado
+                filter: { estado: 'Completado' } 
             })
             .then((response) => {
-                // Filtra los resultados por el estado "En curso"
                 const completadosTickets = response.data.filter(ticket => ticket.estado === 'Completado');
                 setTicketsCompletados(completadosTickets.length);
             })
@@ -83,9 +79,9 @@ export const Dashboard = () => {
         // Lógica para contar aulas registradas
         dataProvider
             .getList('tickets', {
-                pagination: { page: 1, perPage: 100 }, // Ajusta el valor de perPage según la cantidad máxima de tickets
+                pagination: { page: 1, perPage: 100 },
                 sort: { field: 'id', order: 'DESC' },
-                filter: {} // Puedes ajustar esto según tus necesidades de filtro
+                filter: {} 
             })
             .then((response) => {
                 const uniqueAulas = new Set(response.data.map(ticket => ticket.aula));
@@ -95,18 +91,59 @@ export const Dashboard = () => {
                 console.error('Error al obtener aulas registradas:', error);
             });
 
-            // Lógica para obtener la lista de tickets
+            // Lógica para obtener la lista de tickets recientes
         dataProvider
             .getList('tickets', {
-                pagination: { page: 1, perPage: 5 }, // Ajusta perPage según tus necesidades
+                pagination: { page: 1, perPage: 5 }, 
                 sort: { field: 'id', order: 'DESC' },
-                filter: {} // Puedes ajustar esto según tus necesidades de filtro
+                filter: {} 
             })
             .then((response) => {
                 setTickets(response.data);
             })
             .catch((error) => {
                 console.error('Error al obtener la lista de tickets:', error);
+            });
+
+            // Lógica para obtener la categoría más repetida
+            dataProvider
+            .getList('tickets', {
+              pagination: { page: 1, perPage: 100 }, 
+              sort: { field: 'id', order: 'DESC' },
+              filter: {}
+            })
+            .then((response) => {
+                if (response.data && response.data.length > 0) {
+                    const categoryCounts: { [key: string]: number } = {};
+                    let maxCategory = '';
+                    let maxCount = 0;
+
+                    response.data.forEach((ticket) => {
+                        const categoria: string = ticket.categoria;
+                        if (categoria in categoryCounts) {
+                            categoryCounts[categoria]++;
+                        } else {
+                            categoryCounts[categoria] = 1;
+                        }
+
+                        if (categoryCounts[categoria] > maxCount) {
+                            maxCount = categoryCounts[categoria];
+                            maxCategory = categoria;
+                        }
+                    });
+
+                    if (maxCategory) {
+                        setMostRepeatedCategory(maxCategory);
+                    } else {
+                        setMostRepeatedCategory('No se encontraron categorías en la base de datos.');
+                    }
+                } else {
+                    setMostRepeatedCategory('No se encontraron tickets en la base de datos.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error al obtener los tickets:', error);
+                setMostRepeatedCategory('Error al obtener los tickets');
             });
 }, []);
 
@@ -138,7 +175,7 @@ export const Dashboard = () => {
             gridTemplateColumns="repeat(12, 1fr)"
             gridAutoRows="140px"
             gap="20px"
-          >
+          > 
             {/* ROW 1 */}
             <Box
                 gridColumn="span 3"
@@ -231,14 +268,14 @@ export const Dashboard = () => {
                     fontWeight="600"
                     color={colors.grey[100]}
                   >
-                    Categorías de Tickets
+                    Categoría más repetida  
                   </Typography>
                   <Typography
-                    variant="h3"
+                    variant="h4"
                     fontWeight="bold"
                     color={colors.greenAccent[500]}
                   >
-                    categoria
+                    {mostRepeatedCategory}
                   </Typography>
                 </Box>
                 <Box>
@@ -362,5 +399,4 @@ export const Dashboard = () => {
         </Box>
       );
     };
-
 

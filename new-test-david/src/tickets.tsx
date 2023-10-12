@@ -166,10 +166,7 @@ export const TicketCreate = () => {
           label='Subcategoría'
           choices={subCategories}
         />
-        <SelectInput validate={required()} source='estado' label="Estado" choices={[
-        { id: 'En curso', name: 'En Curso' },
-        { id: 'Completado', name: 'Completado' }
-      ]} />
+        <TextInput validate={required()} source='estado' label="Estado" defaultValue={"Nuevo"} disabled/>
         <SelectInput validate={required()} source='prioridad' label="Prioridad" choices={[
           { id: 'bajo', name: 'Bajo' },
           { id: 'medio', name: 'Media' },

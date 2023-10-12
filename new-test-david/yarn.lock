@@ -1654,7 +1654,7 @@
     prop-types "^15.7.2"
     react-lifecycles-compat "^3.0.4"
 
-"@nivo/scales@0.83.0":
+"@nivo/scales@^0.83.0", "@nivo/scales@0.83.0":
   version "0.83.0"
   resolved "https://registry.npmjs.org/@nivo/scales/-/scales-0.83.0.tgz"
   integrity sha512-DZn5IcMJErCURDuQPmYltu6GTPphTDVLMvbeN/Id/VSVbD1uYKvdXPKUNOe/N2IvnE8wjjCPv88DLcRhw6VTVg==
