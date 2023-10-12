@@ -17,16 +17,5 @@ export const App = () => (
         <CustomRoutes noLayout>
             <Route path="/registrarse" element={<Registrarse />}/>
         </CustomRoutes>
-        <CustomRoutes>
-            {(permissions) => {
-                // Verifica los permisos del usuario y oculta la ruta de "dashboard" si es necesario
-                if (permissions === 'Coordinador') {
-                    return null; // No mostrar la ruta de "dashboard"
-                } else {
-                    // Muestra la ruta de "dashboard" para otros usuarios
-                    return <Resource name="dashboard" options={{ label: 'Dashboard' }} />;
-                }
-            }}
-        </CustomRoutes>
     </Admin>
 ); 
