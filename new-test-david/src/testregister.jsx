@@ -8,6 +8,7 @@ import {
     MDBCheckbox,
 } from 'mdb-react-ui-kit';
 import { useNotify } from "react-admin";
+import SelectInput from "@mui/material/Select/SelectInput";
 
 const Registrarse = () => {
 
@@ -18,7 +19,7 @@ const Registrarse = () => {
         permissions: "",
     });
 
-    const notify= useNotify();
+    const notify = useNotify();
 
     const [usuarioCreado, setUsuarioCreado] = useState(false);
     const [redireccionar, setRedireccionar] = useState(false);
@@ -47,12 +48,12 @@ const Registrarse = () => {
                 }
 
                 setRegistroExitoso(true);
-                notify('Registro Exitoso',{type:"success"})
+                notify('Registro Exitoso', { type: "success" })
                 setDatos({
-                    username:"",
-                    password:"",
-                    fullName:"",
-                    permissions:"",
+                    username: "",
+                    password: "",
+                    fullName: "",
+                    permissions: "",
                 });
 
             }
@@ -86,7 +87,12 @@ const Registrarse = () => {
                     <MDBInput wrapperClass='mb-4' label='Nombre Completo' size='lg' id='fullName' type='text' name="fullName" value={datos.fullName} onChange={handleChange} />
                     <MDBInput wrapperClass='mb-4' label='Usuario' size='lg' id='username' type='text' name="username" value={datos.username} onChange={handleChange} />
                     <MDBInput wrapperClass='mb-4' label='Contraseña' size='lg' id='password' type='password' name="password" value={datos.password} onChange={handleChange} />
-                    <MDBInput wrapperClass="mb-4" label='Rol de Permisos' size='lg' id='permissions' type='text' name='permissions' value={datos.permissions} onChange={handleChange} />
+                    <select class="mb-4 form-control" value={datos.permissions} onChange={handleChange} label="Rol de Permisos" id="permissions" type='text' name='permissions'>
+                        <option value="" disabled hidden>Selecciona un tipo de usuario</option>
+                        <option value="Coordinador">Coordinador de Aula</option>
+                        <option value="Nacional">Coordinador Nacional</option>
+                        <option value="Ejecutivo">Ejecutivo</option>
+                    </select>
                     <MDBBtn size='lg' onClick={handleSendData}>Registrarse</MDBBtn>
                 </MDBCardBody>
             </MDBCard>
