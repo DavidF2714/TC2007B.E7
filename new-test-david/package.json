@@ -16,6 +16,7 @@
     "@nivo/bar": "^0.83.0",
     "@nivo/geo": "^0.83.0",
     "@nivo/line": "^0.83.0",
+    "@nivo/scales": "^0.83.0",
     "axios": "^1.5.1",
     "cors": "^2.8.5",
     "jsonwebtoken": "^9.0.2",
