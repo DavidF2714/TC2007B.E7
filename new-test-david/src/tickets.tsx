@@ -8,7 +8,8 @@ import {
   Create,
   DateInput,
   SelectInput,
-  useAuthenticated
+  usePermissions,
+  useNotify,
 } from 'react-admin';
 import Select from 'react-select/dist/declarations/src/Select';
 import React, { useState, useEffect } from "react";
@@ -29,30 +30,48 @@ export const TicketList = () => (
   </List>
 );
 
-export const TicketEdit = () => (
+export const TicketEdit: React.FC = (props) => {
+  const { permissions } = usePermissions();
 
-  <Edit>
-    <SimpleForm>
-      <TextInput source="aula" label="Aula" disabled validate={required()} />
-      <TextInput source="coordinador" disabled validate={required()} />
-      <TextInput source="categoria" disabled />
-      <TextInput source='folio' disabled label="Número de Oficio" />
-      <TextInput source="subcategoria" disabled />
-      <TextInput source='timestamp' label="Fecha y Hora" disabled validate={required()} />
-      <SelectInput validate={required()} source='estado' label="Estado" choices={[
-        { id: 'En curso', name: 'En Curso' },
-        { id: 'Completado', name: 'Completado' }
-      ]} />
-      <SelectInput validate={required()} source='prioridad' label="Prioridad" choices={[
-        { id: 'bajo', name: 'Bajo' },
-        { id: 'medio', name: 'Media' },
-        { id: 'alto', name: 'Alto' }
-      ]} />
-      <TextInput source="descripción" disabled multiline rows={5} fullWidth />
-      <TextInput source="comentario" multiline rows={5} fullWidth />
-    </SimpleForm>
-  </Edit>
-);
+  // Verificar si el usuario tiene permisos de Coordinador
+  const isCoordinador = permissions.includes('Coordinador');
+
+  return (
+    <Edit {...props}>
+      <SimpleForm>
+        <TextInput source="aula" label="Aula" disabled validate={required()} />
+        <TextInput source="coordinador" disabled validate={required()} />
+        <TextInput source="categoria" disabled />
+        <TextInput source="folio" disabled label="Número de Oficio" />
+        <TextInput source="subcategoria" disabled />
+        <TextInput source="timestamp" label="Fecha y Hora" disabled validate={required()} />
+        <SelectInput
+          validate={required()}
+          source="estado"
+          label="Estado"
+          choices={[
+            { id: 'En curso', name: 'En Curso' },
+            { id: 'Completado', name: 'Completado' }
+          ]}
+        />
+        <SelectInput
+          validate={required()}
+          source="prioridad"
+          label="Prioridad"
+          choices={[
+            { id: 'Bajo', name: 'Bajo' },
+            { id: 'Medio', name: 'Media' },
+            { id: 'Alto', name: 'Alto' }
+          ]}
+          disabled={isCoordinador}
+        />
+        <TextInput source="descripción" disabled multiline rows={5} fullWidth />
+        <TextInput source="comentario" multiline rows={5} fullWidth />
+      </SimpleForm>
+    </Edit>
+  );
+};
+
 type SubCategory = { id: string; name: string;};
 type SubCategoriesOptions = Record<string, SubCategory[]>;
 
@@ -117,8 +136,11 @@ const subCategoriesOptions: SubCategoriesOptions = {
         ]
         };
 
-export const TicketCreate = () => {
-  const auth = useAuthenticated();
+export const TicketCreate: React.FC = (props) => {
+  const {permissions} = usePermissions();
+  const isCoordinador = permissions.includes('Coordinador');
+  const notify = useNotify();
+
   const [selectedCategory, setSelectedCategory] = useState('1');
   const [subCategories, setSubCategories] = useState(subCategoriesOptions[selectedCategory] || []);
   useEffect(() => {
@@ -135,8 +157,16 @@ export const TicketCreate = () => {
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  if(!isCoordinador){
+    notify('No tiene los permisos para crear un ticket',{type:'error'});
+    window.location.href="/#/tickets"
+    return null;
+  }
+
+
   return (
-    <Create>
+    <Create {...props}>
       <SimpleForm >
         <DateInput source='timestamp' label="Fecha" defaultValue={formattedTimestamp} disabled validate={required()} />
         <TextInput source="aula" label="Aula" validate={required()} />
@@ -166,13 +196,13 @@ export const TicketCreate = () => {
           label='Subcategoría'
           choices={subCategories}
         />
-        <TextInput validate={required()} source='estado' label="Estado" defaultValue={"Nuevo"} disabled/>
+        <TextInput validate={required()} source='estado' label="Estado" defaultValue="Nuevo" disabled/>
         <SelectInput validate={required()} source='prioridad' label="Prioridad" choices={[
-          { id: 'bajo', name: 'Bajo' },
-          { id: 'medio', name: 'Media' },
-          { id: 'alto', name: 'Alto' }
+          { id: 'Bajo', name: 'Bajo' },
+          { id: 'Medio', name: 'Media' },
+          { id: 'Alto', name: 'Alto' }
         ]} />
-        <TextInput source="descripción" multiline rows={5} label="Descripción" fullWidth validate={required()} />
+        <TextInput source="descripcion" multiline rows={5} label="Descripción" fullWidth validate={required()} />
       </SimpleForm>
     </Create>
   );

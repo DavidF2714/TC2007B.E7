@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 
 async function connectDB(){
-    let client=new MongoClient("mongodb://localhost:27017/tc2007b")
+    let client=new MongoClient("mongodb://127.0.0.1:27017/tc2007b")
     await client.connect();
     db=client.db();
     console.log("Conectado a la base de datos")
@@ -218,9 +218,17 @@ app.post("/login", async(request, response)=>{
     }else{
         bcrypt.compare(pass, data.password, (error, result)=>{
             if(result){
-                let token=jwt.sign({usuario: data.usuario}, "secretKey", {expiresIn: 600});
+                const tokenPayload = {
+                    usuario: data.usuario,
+                    permissions: data.permissions,
+                };
+                const token = jwt.sign(tokenPayload, "secretKey", { expiresIn: 600 });
                 log(user, "login", "");
-                response.json({"token": token, "id": data.usuario, "fullName": data.fullName})
+                response.json({
+                  "token": token,
+                  "id": data.usuario,
+                  "fullName": data.fullName
+                });
             }else{
                 response.sendStatus(401)
             }
