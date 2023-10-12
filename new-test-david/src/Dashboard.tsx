@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthenticated } from 'react-admin';
-import { useDataProvider } from 'react-admin';
+import { useDataProvider, usePermissions, useNotify} from 'react-admin';
 
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "./theme";
@@ -15,8 +15,20 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SchoolIcon from '@mui/icons-material/School';
+import { type } from 'os';
 
 export const Dashboard = () => {
+
+  const {permissions} = usePermissions();
+  const isCoordinador = permissions.includes('Coordinador');
+  const notify = useNotify();
+
+  if(isCoordinador){
+    notify('No tiene los permisos para visualizar el Panel de Control',{type:'error'});
+    window.location.href='/#/tickets'
+    return null;
+  }
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const dataProvider = useDataProvider();

@@ -19,6 +19,7 @@
     "@nivo/scales": "^0.83.0",
     "axios": "^1.5.1",
     "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.2",
     "mdb-react-ui-kit": "^6.2.0",
     "package.json": "^0.0.0",
     "ra-data-json-server": "^4.12.0",
