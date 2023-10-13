@@ -7,10 +7,9 @@ import { tokens } from "./theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import Header from "./Components/Header";
 import LineChart from "./Components/LineChart";
-import GeographyChart from "./Components/GeographyChart";
 import BarChart from "./Components/BarChart";
+import PieChart from "./Components/PieChart";
 import StatBox from "./Components/StatBox";
-import ProgressCircle from "./Components/ProgressCircle";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -198,8 +197,8 @@ export const Dashboard = () => {
               <StatBox
                 title={ticketCount}
                 subtitle="Tickets Generados"
-                progress="0.75"
-                increase="+14%"
+                progress="null"
+                increase=""
                 icon={
                   <AddCircleIcon
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -216,8 +215,8 @@ export const Dashboard = () => {
               <StatBox
                 title={ticketsEnCurso}
                 subtitle="Tickets En Curso"
-                progress="0.50"
-                increase="+21%"
+                progress="null"
+                increase=""
                 icon={
                   <AccessTimeFilledIcon
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -234,8 +233,8 @@ export const Dashboard = () => {
               <StatBox
                 title={ticketsCompletados}
                 subtitle="Tickets Completados"
-                progress="0.30"
-                increase="+5%"
+                progress="null"
+                increase=""
                 icon={
                   <CheckCircleIcon
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -252,8 +251,8 @@ export const Dashboard = () => {
               <StatBox
                 title={aulasRegistradas}
                 subtitle="Aulas Registradas"
-                progress="0.80"
-                increase="+43%"
+                progress="null"
+                increase=""
                 icon={
                   <SchoolIcon
                     sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -357,7 +356,7 @@ export const Dashboard = () => {
               p="30px"
             >
               <Typography variant="h5" fontWeight="600">
-                Campaign
+                Prioridad de Tickets
               </Typography>
               <Box
                 display="flex"
@@ -365,15 +364,15 @@ export const Dashboard = () => {
                 alignItems="center"
                 mt="25px"
               >
-                <ProgressCircle size="125" />
+                <Box height="300px" width="800px" m="-30px 90px 0 0">
+                <PieChart isDashboard={true} />
+                </Box>
                 <Typography
                   variant="h5"
                   color={colors.greenAccent[500]}
                   sx={{ mt: "15px" }}
                 >
-                  $48,352 revenue generated
                 </Typography>
-                <Typography>Includes extra misc expenditures and costs</Typography>
               </Box>
             </Box>
             <Box
@@ -385,9 +384,9 @@ export const Dashboard = () => {
                 fontWeight="600"
                 sx={{ padding: "30px 30px 0 30px" }}
               >
-                Sales Quantity
+                Estado de tickets
               </Typography>
-              <Box height="250px" mt="-20px">
+              <Box height="370px" width="700px" mt="-20px">
                 <BarChart isDashboard={true} />
               </Box>
             </Box>
@@ -396,16 +395,6 @@ export const Dashboard = () => {
               gridRow="span 2"
               padding="30px"
             >
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                sx={{ marginBottom: "15px" }}
-              >
-                Geography Based Traffic
-              </Typography>
-              <Box height="200px">
-                <GeographyChart isDashboard={true} />
-              </Box>
             </Box>
           </Box>
         </Box>

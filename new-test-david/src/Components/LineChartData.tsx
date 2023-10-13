@@ -72,7 +72,7 @@ export const Prueba = () => {
                 y: getCategoryTicketCount('Infrestructura', aulasConTicketsOrdenadasTop3Nombres[0]),
               },
               {
-                x: 'Recursos Humanos',
+                x: 'RH',
                 y: getCategoryTicketCount('Recursos Humanos', aulasConTicketsOrdenadasTop3Nombres[0]),
               },
               {
@@ -92,7 +92,7 @@ export const Prueba = () => {
                 y: getCategoryTicketCount('Materiales', aulasConTicketsOrdenadasTop3Nombres[0]),
               },
               {
-                x: 'Fenómeno Meteorológico',
+                x: 'FM',
                 y: getCategoryTicketCount('Fenómeno Meteorológico', aulasConTicketsOrdenadasTop3Nombres[0]),
               },
             ],
@@ -114,7 +114,7 @@ export const Prueba = () => {
                 y: getCategoryTicketCount('Infrestructura', aulasConTicketsOrdenadasTop3Nombres[1]),
               },
               {
-                x: 'Recursos Humanos',
+                x: 'RH',
                 y: getCategoryTicketCount('Recursos Humanos', aulasConTicketsOrdenadasTop3Nombres[1]),
               },
               {
@@ -134,7 +134,7 @@ export const Prueba = () => {
                 y: getCategoryTicketCount('Materiales', aulasConTicketsOrdenadasTop3Nombres[1]),
               },
               {
-                x: 'Fenómeno Meteorológico',
+                x: 'FM',
                 y: getCategoryTicketCount('Fenómeno Meteorológico', aulasConTicketsOrdenadasTop3Nombres[1]),
               },
             ],
@@ -156,7 +156,7 @@ export const Prueba = () => {
                 y: getCategoryTicketCount('Infrestructura', aulasConTicketsOrdenadasTop3Nombres[2]),
               },
               {
-                x: 'Recursos Humanos',
+                x: 'RH',
                 y: getCategoryTicketCount('Recursos Humanos', aulasConTicketsOrdenadasTop3Nombres[2]),
               },
               {
@@ -176,13 +176,12 @@ export const Prueba = () => {
                 y: getCategoryTicketCount('Materiales', aulasConTicketsOrdenadasTop3Nombres[2]),
               },
               {
-                x: 'Fenómeno Meteorológico',
+                x: 'FM',
                 y: getCategoryTicketCount('Fenómeno Meteorológico', aulasConTicketsOrdenadasTop3Nombres[2]),
               },
             ],
           },
         ];
-        console.log('chartData:', chartData);
         setChartData(chartData);
       })
       .catch((error) => {
@@ -191,6 +190,3 @@ export const Prueba = () => {
   },);
   return (chartData)
 };
-
-
-
