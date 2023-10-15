@@ -72,6 +72,50 @@ app.get("/tickets", async (request, response)=>{
     }
 })
 
+
+app.get("/usuarios", async (request, response)=>{
+    try{
+        let token=request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let authData=await db.collection("usuarios").findOne({"usuario": verifiedToken.usuario})
+        let parametersFind={}
+        
+        if ("_sort" in request.query){
+            let sortBy=request.query._sort;
+            let sortOrder=request.query._order=="ASC"?1:-1;
+            let start=Number(request.query._start);
+            let end=Number(request.query._end);
+            let sorter={}
+            sorter[sortBy]=sortOrder
+            let data=await db.collection('usuarios').find(parametersFind).sort(sorter).project({_id:0}).toArray();
+            response.set('Access-Control-Expose-Headers', 'X-Total-Count')
+            response.set('X-Total-Count', data.length)
+            data=data.slice(start, end)
+            response.json(data);
+        }else if ("id" in request.query){
+            let data=[]
+            for (let index=0; index<request.query.id.length; index++){
+                let dataObtain=await db.collection('usuarios').find({id: Number(request.query.id[index])}).project({_id:0}).toArray();
+                data=await data.concat(dataObtain)
+            }
+            response.json(data);
+        }else {
+            let data=[]
+            data=await db.collection('usuarios').find(request.query).project({_id:0}).toArray();
+            response.set('Access-Control-Expose-Headers', 'X-Total-Count')
+            response.set('X-Total-Count', data.length)
+            response.json(data)
+        }
+    }catch{
+        response.sendStatus(401);
+    }
+})
+
+
+
+
+
+
 //getOne
 app.get("/tickets/:id", async (request, response)=>{
     try{
@@ -183,30 +227,45 @@ app.get("/dashboard/:id", async (request, response)=>{
     }
 })    
 
-app.post("/registrarse", async(request, response)=>{
-    let user=request.body.username;
-    let pass=request.body.password;
-    let fname=request.body.fullName;
-    let perm=request.body.permissions;
+app.post("/registrarse", async (request, response) => {
+    let user = request.body.username;
+    let pass = request.body.password;
+    let fname = request.body.fullName;
+    let perm = request.body.permissions;
 
-    console.log(request.body)
-    let data= await db.collection("usuarios").findOne({"usuario": user});
-    if(data==null){
-        try{
-            bcrypt.genSalt(10, (error, salt)=>{
-                bcrypt.hash(pass, salt, async(error, hash)=>{
-                    let usuarioAgregar={"usuario": user, "password": hash, "fullName": fname, "permissions": perm};
-                    data= await db.collection("usuarios").insertOne(usuarioAgregar);
+    console.log(request.body);
+    let data = await db.collection("usuarios").findOne({ "usuario": user });
+    if (data == null) {
+        try {
+            // Consulta la colección de usuarios para obtener el último usuario registrado
+            let ultimoUsuario = await db.collection("usuarios").find().sort({ id: -1 }).limit(1).toArray();
+            let nuevoId = 1; // Valor predeterminado si no hay usuarios registrados
+
+            if (ultimoUsuario.length > 0) {
+                nuevoId = ultimoUsuario[0].id + 1;
+            }
+
+            bcrypt.genSalt(10, (error, salt) => {
+                bcrypt.hash(pass, salt, async (error, hash) => {
+                    let usuarioAgregar = {
+                        "id": nuevoId, // Asigna el nuevo "id"
+                        "usuario": user,
+                        "password": hash,
+                        "fullName": fname,
+                        "permissions": perm
+                    };
+                    data = await db.collection("usuarios").insertOne(usuarioAgregar);
                     response.sendStatus(201);
-                })
-            })
-        }catch{
+                });
+            });
+        } catch {
             response.sendStatus(401);
         }
-    }else{
-        response.sendStatus(401)
+    } else {
+        response.sendStatus(401);
     }
-})
+});
+
 
 
 app.post("/login", async(request, response)=>{
