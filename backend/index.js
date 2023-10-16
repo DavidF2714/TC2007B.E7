@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 
 async function connectDB(){
-    let client=new MongoClient("mongodb://localhost:27017/tc2007b")
+    let client=new MongoClient("mongodb://127.0.0.1:27017/tc2007b")
     await client.connect();
     db=client.db();
     console.log("Conectado a la base de datos")
@@ -307,6 +307,17 @@ app.delete("/tickets/:id", async (request, response)=>{
     }
 })
 
+app.delete("/usuarios/:id", async (request, response)=>{
+    try{
+        let token=request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let data=await db.collection('usuarios').deleteOne({"id": Number(request.params.id)});
+        response.json(data);
+    }catch{
+        response.sendStatus(401);
+    }
+})
+
 https.createServer({cert: fs.readFileSync("backend.cer"), key: fs.readFileSync("backend.key")}, app).listen(1337, ()=>{
     connectDB();
     console.log("Servidor escuchando en puerto 1337 con HTTPS")
@@ -316,3 +327,4 @@ https.createServer({cert: fs.readFileSync("backend.cer"), key: fs.readFileSync("
 //     connectDB();
 //     console.log("Servidor escuchando en puerto 1337")
 // })
+
