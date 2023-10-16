@@ -13,7 +13,6 @@ const CustomLoginPage = () => {
         e.preventDefault();
 
         try {
-            // Call the useLogin hook to perform login
             await login({ username, password });
         } catch (error) {
             notify('Error en la autentificación');

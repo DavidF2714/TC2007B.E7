@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useAuthenticated } from 'react-admin';
+import { useEffect, useState } from 'react';
 import { useDataProvider, usePermissions, useNotify} from 'react-admin';
-
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "./theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
@@ -14,7 +12,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SchoolIcon from '@mui/icons-material/School';
-import { type } from 'os';
 
 export const Dashboard = () => {
 

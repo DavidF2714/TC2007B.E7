@@ -10,14 +10,14 @@ import {
   SelectInput,
   usePermissions,
   useNotify,
+  SaveButton,
 } from 'react-admin';
-import Select from 'react-select/dist/declarations/src/Select';
 import React, { useState, useEffect } from "react";
 import { required } from 'ra-core';
 
 export const TicketList = () => (
   <List>
-    <Datagrid rowClick="show">
+    <Datagrid rowClick="edit">
       <TextField source='aula' label="Aula" />
       <TextField source="coordinador" label="Coordinador" />
       <TextField source='folio' label="Folio" />
@@ -38,7 +38,7 @@ export const TicketEdit: React.FC = (props) => {
 
   return (
     <Edit {...props}>
-      <SimpleForm>
+      <SimpleForm warnWhenUnsavedChanges toolbar={<SaveButton label="Guardar"/>}>
         <TextInput source="aula" label="Aula" disabled validate={required()} />
         <TextInput source="coordinador" disabled validate={required()} />
         <TextInput source="categoria" disabled />
@@ -167,7 +167,7 @@ export const TicketCreate: React.FC = (props) => {
 
   return (
     <Create {...props}>
-      <SimpleForm >
+      <SimpleForm warnWhenUnsavedChanges>
         <DateInput source='timestamp' label="Fecha" defaultValue={formattedTimestamp} disabled validate={required()} />
         <TextInput source="aula" label="Aula" validate={required()} />
         <TextInput source="coordinador" label="Nombre del Coordinador" defaultValue={fullName} type='text' disabled validate={required()} />

@@ -32,19 +32,19 @@ export const PieChartDataProvider = () => {
           {
             id: 'Alto',
             label: 'Alto',
-            value: countTicketsByPriority('alto'),
+            value: countTicketsByPriority('Alto'),
             color: 'hsl(0, 75%, 75%)',
           },
           {
             id: 'Medio',
             label: 'Medio',
-            value: countTicketsByPriority('medio'),
+            value: countTicketsByPriority('Medio'),
             color: 'hsl(120, 75%, 75%)',
           },
           {
             id: 'Bajo',
             label: 'Bajo',
-            value: countTicketsByPriority('bajo'),
+            value: countTicketsByPriority('Bajo'),
             color: 'hsl(240, 75%, 75%)',
           },
         ];
