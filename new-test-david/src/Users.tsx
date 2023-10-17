@@ -5,7 +5,10 @@ import {
     usePermissions,
     useNotify,
   } from 'react-admin';
-  
+  import { Box } from '@mui/material';
+  import Header from './Components/Header.jsx';
+
+
   export const UserList = () => {
     const {permissions} = usePermissions();
     const isEjecutivo = permissions.includes('Ejecutivo');
@@ -19,6 +22,8 @@ import {
     }
 
     return(
+      <Box m="1.5rem 2.5rem">
+      <Header title="USUARIOS" subtitle="Ver usuarios registrados."/>
       <List>
         <Datagrid rowClick="show">
         <TextField source="usuario" label="Usuario" />
@@ -26,5 +31,6 @@ import {
         <TextField source="permissions" label="Permisos" />
         </Datagrid>
       </List>
+      </Box>
     );  
 };
