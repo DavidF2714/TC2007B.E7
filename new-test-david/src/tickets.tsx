@@ -12,99 +12,34 @@ import {
   useNotify,
   SaveButton,
   useDataProvider,
+  Show
 } from 'react-admin';
 import { Box, Container, Grid, Paper, ThemeProvider, createTheme} from '@mui/material';
 
 import React, { useState, useEffect } from "react";
 import  Header  from './Components/Header.jsx';
+import { Route } from "react-router-dom";
 import { required } from 'ra-core';
 import { MuiCard } from './Components/MuiCard.jsx';
 
 export const TicketList = () => (
   <Box m="1.5rem 2.5rem">
     <Header title="TICKETS" subtitle="Ver lista de tickets."/>
-    <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          bgcolor: 'background.paper',
-          boxShadow: 1,
-          borderRadius: 2,
-          p: 2,
-          minWidth: 300,
-        }}
-      >
-        <Box sx={{ color: 'text.secondary' }}></Box>
-        <TextField sx={{color: 'text.secondary' }} source='aula' label="Aula"/>
-        <Box sx={{ color: 'text.primary', fontSize: 34, fontWeight: 'medium' }}>
-          98.3 K
-        </Box>
-        <Box
-          sx={{
-            color: 'success.dark',
-            display: 'inline',
-            fontWeight: 'bold',
-            mx: 0.5,
-            fontSize: 14,
-          }}
-        >
-          +18.77%
-        </Box>
-        <Box sx={{ color: 'text.secondary', display: 'inline', fontSize: 14 }}>
-          vs. last week
-        </Box>
-      </Box>
-    </ThemeProvider> 
-    <MuiCard></MuiCard>    
+    <List>
+    <Datagrid rowClick="edit">
+      <TextField source='aula' label="Aula" />
+      <TextField source="coordinador" label="Coordinador" />
+      <TextField source='folio' label="Folio" />
+      <TextField source="categoria" label="Categoría" />
+      <TextField source="subcategoria" label="Subcategoría" />
+      <TextField source="estado" label="Estado" />
+      <TextField source='prioridad' label="Prioridad"/>
+      <TextField source="timestamp" label="Fecha y Hora" />
+    </Datagrid>
+    </List> 
+    <MuiCard></MuiCard>
   </Box>
 );
-
-const theme = createTheme({
-  palette: {
-    background: {
-      paper: '#fff',
-    },
-    text: {
-      primary: '#173A5E',
-      secondary: '#46505A',
-    },
-    
-  },
-});
-
-export default function Example() {
-  return (
-    <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          bgcolor: 'background.paper',
-          boxShadow: 1,
-          borderRadius: 2,
-          p: 2,
-          minWidth: 300,
-        }}
-      >
-        <Box sx={{ color: 'text.secondary' }}>Sessions</Box>
-        <Box sx={{ color: 'text.primary', fontSize: 34, fontWeight: 'medium' }}>
-          98.3 K
-        </Box>
-        <Box
-          sx={{
-            color: 'success.dark',
-            display: 'inline',
-            fontWeight: 'bold',
-            mx: 0.5,
-            fontSize: 14,
-          }}
-        >
-          +18.77%
-        </Box>
-        <Box sx={{ color: 'text.secondary', display: 'inline', fontSize: 14 }}>
-          vs. last week
-        </Box>
-      </Box>
-    </ThemeProvider>
-  );
-}
 
 export const TicketEdit: React.FC = (props) => {
   const { permissions } = usePermissions();

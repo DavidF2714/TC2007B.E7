@@ -329,7 +329,7 @@ export const Dashboard = () => {
                       variant="h5"
                       fontWeight="600"
                     >
-                      {ticket.aula} Aula
+                      {ticket.aula} 
                     </Typography>
                     <Typography color={colors.grey[100]}>
                       {ticket.coordinador}

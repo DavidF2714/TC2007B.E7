@@ -67,7 +67,7 @@ const Registrarse = () => {
             setUsuarioCreado(true);
             setTimeout(() => {
                 setRedireccionar(true);
-            }, 1500);
+            }, 1000);
         }, 1000);
 
     };
