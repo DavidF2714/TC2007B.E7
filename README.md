@@ -34,12 +34,12 @@ Inicie la aplicación en modo desarrollo ingresando el comando:
 npm run dev
 ```
 
-Haz clic en cualquiera de los dos enlaces https que se desplegarán a continuación:
+Haz clic en cualquiera de los dos enlaces https que se desplegarán a continuación similares a los que se encuentran a continuación:
 
-```sh
+```js
   VITE v4.4.9  ready in 443 ms
 
-  ➜  Local:   https://localhost:5173/
-  ➜  Network: https://10.49.68.7:5173/
+  ➜  Local:   https://localhost:1234/
+  ➜  Network: https://10.23.34.5:1234/
   ➜  press h to show help
 ```
