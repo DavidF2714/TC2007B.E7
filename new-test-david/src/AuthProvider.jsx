@@ -43,7 +43,7 @@ const authProvider = {
     }
   },
   getPermissions: () => {
-    const token = localStorage.getItem('auth'); // Reemplaza con tu forma de almacenar el token
+    const token = localStorage.getItem('auth');
     if (token) {
       // Decodificar el token manualmente (puede variar dependiendo de tu token)
       const tokenParts = token.split('.');
@@ -51,7 +51,7 @@ const authProvider = {
         const payload = JSON.parse(atob(tokenParts[1]));
         if (payload && payload.permissions) {
           const userPermissions = payload.permissions;
-          console.log('Permisos del usuario:', userPermissions); // Agrega un console.log aquí
+          console.log('Permisos del usuario:', userPermissions); 
           return Promise.resolve(userPermissions);
         }
       }

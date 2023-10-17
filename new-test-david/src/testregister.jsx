@@ -6,7 +6,7 @@ import {
     MDBCardBody,
     MDBInput,
 } from 'mdb-react-ui-kit';
-import { useNotify } from "react-admin";
+import { useNotify, useLogout } from "react-admin";
 
 const Registrarse = () => {
 
@@ -22,6 +22,7 @@ const Registrarse = () => {
     const [usuarioCreado, setUsuarioCreado] = useState(false);
     const [redireccionar, setRedireccionar] = useState(false);
     const [registroExitoso, setRegistroExitoso] = useState(false);
+    const logout = useLogout();
 
 
     const handleChange = (event) => {
@@ -47,6 +48,8 @@ const Registrarse = () => {
 
                 setRegistroExitoso(true);
                 notify('Registro Exitoso', { type: "success" })
+                logout();
+
                 setDatos({
                     username: "",
                     password: "",
