@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useAuthenticated } from 'react-admin';
 import { useDataProvider, usePermissions, useNotify} from 'react-admin';
 
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
@@ -9,11 +8,7 @@ import Header from "../Components/Header";
 import LineChart from "../Components/LineChart";
 import BarChart from "../Components/BarChart";
 import PieChart from "../Components/PieChart";
-import StatBox from "../Components/StatBox";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import SchoolIcon from '@mui/icons-material/School';
+
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { RefObject } from 'react';
@@ -191,12 +186,12 @@ export const Reporte = () => {
       <Box m="20px" ref={reporteRef}>
           {/* HEADER */}
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="REPORTE" subtitle="SEMANAL" />
+            <Header title="REPORTE" subtitle="Semanal" />
     
             <Box>
               <Button
                 sx={{
-                  backgroundColor: colors.blueAccent[700],
+                  backgroundColor: 'deepskyblue',
                   color: colors.grey[100],
                   fontSize: "14px",
                   fontWeight: "bold",

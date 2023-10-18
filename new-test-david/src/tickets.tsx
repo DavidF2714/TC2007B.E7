@@ -1,7 +1,4 @@
 import {
-  Datagrid,
-  List,
-  TextField,
   Edit,
   SimpleForm,
   TextInput,
@@ -12,24 +9,17 @@ import {
   useNotify,
   SaveButton,
   useDataProvider,
-  CreateButton
 } from "react-admin";
 import AddIcon from '@mui/icons-material/Add';
 import {
   Box,
   Container,
   Grid,
-  Paper,
-  ThemeProvider,
-  createTheme,
   useTheme,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Header from "./Components/Header.jsx";
-import { Route } from "react-router-dom";
 import { required } from "ra-core";
-import { MuiCard } from "./Components/MuiCard.jsx";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Card,
   CardActions,
@@ -38,7 +28,6 @@ import {
   Typography,
 } from "@mui/material";
 import { tokens } from "./theme.js";
-import { useMediaQuery } from "@mui/material";
 
 
 export const TicketList = () => {
@@ -51,7 +40,7 @@ export const TicketList = () => {
     dataProvider
       .getList("tickets", {
         pagination: { page: 1, perPage: 100 },
-        sort: { field: "id", order: "ASC" },
+        sort: { field: "timestamp", order: "DES" },
         filter: {},
       })
       .then((response) => {
@@ -63,57 +52,56 @@ export const TicketList = () => {
   }, []);
 
   return (
-    <Box gridColumn="span 8" gridRow="span 4" overflow="auto">
-      <List>
-        <Datagrid rowClick="edit">
-        <TextField source='aula' label="Aula" />
-        <TextField source="coordinador" label="Coordinador" />
-        <TextField source='folio' label="Folio" />
-        <TextField source="categoria" label="Categoría" />
-        <TextField source="subcategoria" label="Subcategoría" />
-        <TextField source="estado" label="Estado" />
-        <TextField source='prioridad' label="Prioridad"/>
-        <TextField source="timestamp" label="Fecha y Hora" />
-        </Datagrid>
-      </List>
+    <Box  m="1.5rem 2.5rem">
       <Header title="TICKETS" subtitle="Ver lista de tickets." />
-      <Button  color="success">
-      </Button>
-      <Button
+      <Container>
+      <Grid container spacing={3} justifyContent="center" alignItems="center"> <Grid item xs={16} sm={6} md={4} alignItems="center" justifyContent="center"> <Box sx={{ p: 13}}> <Button
                     href="/#/tickets/create"
                     variant="contained"
                     color={"success"}
-                    size="small"
+                    size="large"
                     startIcon={<AddIcon />}
                   >
                     CREAR
-                  </Button>
-      <Container>
-        <Grid container spacing={3}>
+                  </Button> </Box> </Grid>
+          
           {tickets.map((ticket, i) => (
-            <Grid item key={`ticket-${i}`} xs={12} sm={6} md={4}>
-              <Card sx={{ maxWidth: 345 }}>
+            <Grid item key={`ticket-${i}`} xs={16} sm={6} md={4}>
+              <Card sx={{ maxWidth: 345 }} variant="outlined">
                 <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                   {ticket.timestamp}
+                  </Typography>
                   <Typography gutterBottom variant="h5" component="div">
                     {ticket.aula}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Prioridad: {ticket.prioridad}
+                    Prioridad:&nbsp;
+                    <span
+            style={{
+              color: ticket.prioridad === 'Bajo' ? 'green' :
+                     ticket.prioridad === 'Medio' ? 'orange' :
+                     ticket.prioridad === 'Alto' ? 'red' : 'black'
+            }}
+          >
+             {ticket.prioridad}
+          </span>
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography sx={{ mb: 1.5, fontWeight: 'bold' }} variant="body2" color="text.secondary">
                     {ticket.coordinador}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
+                    Estado: {ticket.estado}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
+                    {ticket.categoria} - {ticket.subcategoria}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
+                    {ticket.descripcion.length > 50 ? `${ticket.descripcion.slice(0, 50)}...` : ticket.descripcion}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Mostrar más</Button>
-                  <Button size="small"></Button>
-                  <Button
-                    color={"error"}
-                    size="small"
-                    startIcon={<DeleteIcon />}
-                  >
-                    Borrar
-                  </Button>
+                  <Button size="small" href={`./#/tickets/${ticket.id}`}>Ver más</Button>
                 </CardActions>
               </Card>
             </Grid>
@@ -124,13 +112,6 @@ export const TicketList = () => {
   );
 };
 
-{
-  /* <Box sx={{ '& > :not(style)': { m: 1 } }}>
-      <Fab color="primary" aria-label="add">
-        <AddIcon />
-      </Fab> */
-}
-
 export const TicketEdit: React.FC = (props) => {
   const { permissions } = usePermissions();
 
@@ -139,6 +120,7 @@ export const TicketEdit: React.FC = (props) => {
 
   return (
     <Edit {...props}>
+      <Box sx={{ textAlign: 'center', justifyContent: 'center' }}>
       <SimpleForm
         warnWhenUnsavedChanges
         toolbar={<SaveButton label="Guardar" />}
@@ -174,9 +156,10 @@ export const TicketEdit: React.FC = (props) => {
           ]}
           disabled={isCoordinador}
         />
-        <TextInput source="descripción" disabled multiline rows={5} fullWidth />
+        <TextInput source="descripcion" disabled multiline rows={5} fullWidth />
         <TextInput source="comentario" multiline rows={5} fullWidth />
       </SimpleForm>
+      </Box>
     </Edit>
   );
 };

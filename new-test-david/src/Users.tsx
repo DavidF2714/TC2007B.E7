@@ -8,14 +8,11 @@ import {
   SimpleForm,
   TextInput,
   SelectInput,
-  SaveButton,
-  Create,
 } from 'react-admin';
 import { Box } from '@mui/material';
 import { required } from 'ra-core';
-import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBIcon, MDBInput } from 'mdb-react-ui-kit'
+import { MDBBtn } from 'mdb-react-ui-kit'
 import Header from './Components/Header.jsx';
-import { useState } from 'react';
 
 
 export const UserList = () => {

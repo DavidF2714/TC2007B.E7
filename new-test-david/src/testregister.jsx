@@ -6,9 +6,18 @@ import {
     MDBCardBody,
     MDBInput,
 } from 'mdb-react-ui-kit';
-import { useNotify, useLogout } from "react-admin";
+import { useNotify, useLogout, usePermissions } from "react-admin";
 
 const Registrarse = () => {
+    const { permissions } = usePermissions();
+    const isEjecutivo = permissions.includes('Ejecutivo');
+    const notify = useNotify();
+
+    if (!isEjecutivo) {
+        notify('No tiene los permisos para visualizar los Usuarios', { type: 'error' });
+        //window.location.href = '/#/tickets'
+        return null;
+      }
 
     const [datos, setDatos] = useState({
         username: "",
@@ -17,7 +26,6 @@ const Registrarse = () => {
         permissions: "",
     });
 
-    const notify = useNotify();
 
     const [usuarioCreado, setUsuarioCreado] = useState(false);
     const [redireccionar, setRedireccionar] = useState(false);
@@ -70,7 +78,7 @@ const Registrarse = () => {
             setUsuarioCreado(true);
             setTimeout(() => {
                 setRedireccionar(true);
-            }, 1000);
+            }, 2000);
         }, 1000);
 
     };
@@ -94,7 +102,10 @@ const Registrarse = () => {
                         <option value="Nacional">Coordinador Nacional</option>
                         <option value="Ejecutivo">Ejecutivo</option>
                     </select>
-                    <MDBBtn size='lg' onClick={handleSendData}>Registrarse</MDBBtn>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <MDBBtn color='success'size='lg' onClick={handleSendData}>Registrarse</MDBBtn>
+                    <MDBBtn size='lg' href='./#/tickets'>Regresar</MDBBtn>
+                    </div>
                 </MDBCardBody>
             </MDBCard>
         </MDBContainer>
