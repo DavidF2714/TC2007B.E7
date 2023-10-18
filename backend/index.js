@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 
 async function connectDB(){
-    let client=new MongoClient("mongodb://localhost:27017/tc2007b")
+    let client=new MongoClient("mongodb://127.0.0.1:27017/tc2007b")
     await client.connect();
     db=client.db();
     console.log("Conectado a la base de datos")
@@ -31,10 +31,10 @@ async function log(sujeto, accion, objeto){
 }
 
 //getList, getMany, getManyReference
-app.get("/tickets", async (request, response)=>{
+app.get("/tickets", async (request, response)=>{ 
     try{
-        let token=request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
+        let token=request.get("Authentication"); // Aut del header
+        let verifiedToken = await jwt.verify(token, "secretKey"); // Verifica el token con la llave secreta
         let authData=await db.collection("usuarios").findOne({"usuario": verifiedToken.usuario})
         let parametersFind={}
         if(authData.permissions=="Coordinador"){
@@ -112,10 +112,6 @@ app.get("/usuarios", async (request, response)=>{
 })
 
 
-
-
-
-
 //getOne
 app.get("/tickets/:id", async (request, response)=>{
     try{
@@ -165,72 +161,12 @@ app.put("/tickets/:id", async (request, response)=>{
     }catch{
         response.sendStatus(401);
     }
-})       
-
-//Get
-app.get("/dashboard", async (request, response)=>{
-    try{
-        let token=request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
-        let authData=await db.collection("usuarios").findOne({"usuario": verifiedToken.usuario})
-        let parametersFind={}
-        if(authData.permissions=="Coordinador"){
-            parametersFind["usuario"]=verifiedToken.usuario;
-        }
-        
-        if ("_sort" in request.query){
-            let sortBy=request.query._sort;
-            let sortOrder=request.query._order=="ASC"?1:-1;
-            let start=Number(request.query._start);
-            let end=Number(request.query._end);
-            let sorter={}
-            sorter[sortBy]=sortOrder
-            let data=await db.collection('tickets').find(parametersFind).sort(sorter).project({_id:0}).toArray();
-            response.set('Access-Control-Expose-Headers', 'X-Total-Count')
-            response.set('X-Total-Count', data.length)
-            data=data.slice(start, end)
-            response.json(data);
-        }else if ("id" in request.query){
-            let data=[]
-            for (let index=0; index<request.query.id.length; index++){
-                let dataObtain=await db.collection('tickets').find({id: Number(request.query.id[index])}).project({_id:0}).toArray();
-                data=await data.concat(dataObtain)
-            }
-            response.json(data);
-        }else {
-            let data=[]
-            data=await db.collection('tickets').find(request.query).project({_id:0}).toArray();
-            response.set('Access-Control-Expose-Headers', 'X-Total-Count')
-            response.set('X-Total-Count', data.length)
-            response.json(data)
-        }
-    }catch{
-        response.sendStatus(401);
-    }
-})
-
-//getOne
-app.get("/dashboard/:id", async (request, response)=>{
-    try{
-        let token=request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
-        let authData=await db.collection("usuarios").findOne({"usuario": verifiedToken.usuario})
-        let parametersFind={"id": Number(request.params.id)}
-        if(authData.permissions=="Coordinador"){
-            parametersFind["usuario"]=verifiedToken.usuario;
-        }
-        let data=await db.collection('tickets').find(parametersFind).project({_id:0}).toArray();
-        log(verifiedToken.usuario, "ver objeto", request.params.id)
-        response.json(data[0]);
-    }catch{
-        response.sendStatus(401);
-    }
-})    
+})          
 
 app.post("/registrarse", async (request, response) => {
-    let user = request.body.username;
+    let user = request.body.username; //
     let pass = request.body.password;
-    let fname = request.body.fullName;
+    let fname = request.body.fullName; 
     let perm = request.body.permissions;
 
     console.log(request.body);
@@ -245,7 +181,7 @@ app.post("/registrarse", async (request, response) => {
                 nuevoId = ultimoUsuario[0].id + 1;
             }
 
-            bcrypt.genSalt(10, (error, salt) => {
+            bcrypt.genSalt(10, (error, salt) => { // Genera el salt para el hash
                 bcrypt.hash(pass, salt, async (error, hash) => {
                     let usuarioAgregar = {
                         "id": nuevoId, // Asigna el nuevo "id"
@@ -268,20 +204,20 @@ app.post("/registrarse", async (request, response) => {
 
 
 
-app.post("/login", async(request, response)=>{
-    let user=request.body.username;
+app.post("/login", async(request, response)=>{ // Autenticación
+    let user=request.body.username; 
     let pass=request.body.password;
     let data= await db.collection("usuarios").findOne({"usuario": user});
     if(data==null){
         response.sendStatus(401);
     }else{
-        bcrypt.compare(pass, data.password, (error, result)=>{
+        bcrypt.compare(pass, data.password, (error, result)=>{ // Compara el hash de la contraseña
             if(result){
-                const tokenPayload = {
-                    usuario: data.usuario,
-                    permissions: data.permissions,
+                const tokenPayload = { // 
+                    usuario: data.usuario, // 
+                    permissions: data.permissions, // 
                 };
-                const token = jwt.sign(tokenPayload, "secretKey", { expiresIn: 600 });
+                const token = jwt.sign(tokenPayload, "secretKey", { expiresIn: 600 }); // 
                 log(user, "login", "");
                 response.json({
                   "token": token,
@@ -289,7 +225,7 @@ app.post("/login", async(request, response)=>{
                   "fullName": data.fullName
                 });
             }else{
-                response.sendStatus(401)
+                response.sendStatus(401) // request no autorizado
             }
         })
     }

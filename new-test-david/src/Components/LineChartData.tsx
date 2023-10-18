@@ -1,7 +1,6 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { mockLineData as data } from "./mockData";
 import { useDataProvider } from 'react-admin';
 import { useEffect, useState } from 'react';
 
