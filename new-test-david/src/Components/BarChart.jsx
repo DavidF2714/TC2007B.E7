@@ -4,7 +4,7 @@ import { tokens } from "../theme";
 import { mockBarData as data } from "./mockData";
 import { Prueba } from "./BarChartData"
 
-const BarChart = ({ isDashboard = false }) => {
+const BarChart = ({ isDashboard = false, isReporte = false}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const prueba = Prueba();
