@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     MDBBtn,
     MDBContainer,
     MDBCard,
     MDBCardBody,
     MDBInput,
-    MDBCheckbox,
 } from 'mdb-react-ui-kit';
-import { useNotify } from "react-admin";
-import SelectInput from "@mui/material/Select/SelectInput";
+import { useNotify, useLogout } from "react-admin";
 
 const Registrarse = () => {
 
@@ -24,6 +22,7 @@ const Registrarse = () => {
     const [usuarioCreado, setUsuarioCreado] = useState(false);
     const [redireccionar, setRedireccionar] = useState(false);
     const [registroExitoso, setRegistroExitoso] = useState(false);
+    const logout = useLogout();
 
 
     const handleChange = (event) => {
@@ -49,6 +48,8 @@ const Registrarse = () => {
 
                 setRegistroExitoso(true);
                 notify('Registro Exitoso', { type: "success" })
+                logout();
+
                 setDatos({
                     username: "",
                     password: "",
@@ -58,7 +59,8 @@ const Registrarse = () => {
 
             }
             catch {
-                throw new Error('No se pudo registrar el usuario');
+                notify("Nombre de usuario no disponible",{type:'error'});
+                throw new Error('Nombre de usuario no disponible');
             }
 
         } else {
@@ -66,10 +68,9 @@ const Registrarse = () => {
         }
         setTimeout(() => {
             setUsuarioCreado(true);
-            // Redirige a la página de inicio después de 2 segundos
             setTimeout(() => {
                 setRedireccionar(true);
-            }, 1500);
+            }, 1000);
         }, 1000);
 
     };

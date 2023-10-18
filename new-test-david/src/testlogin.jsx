@@ -13,7 +13,6 @@ const CustomLoginPage = () => {
         e.preventDefault();
 
         try {
-            // Call the useLogin hook to perform login
             await login({ username, password });
         } catch (error) {
             notify('Error en la autentificación');
@@ -54,7 +53,6 @@ const CustomLoginPage = () => {
                             <MDBBtn className="mb-4 px-5 mx-5 w-100" color='info' size='lg' type="submit">Ingresar</MDBBtn>
 
                         </form>
-                            <MDBBtn className="mb-4 px-5 mx-5 w-100" color='success' size='lg' type="submit" href='/#/registrarse'>Registrarse</MDBBtn>
                     </div>
                 </MDBCol>
                 <MDBCol sm='6' className='d-none d-sm-block px-0'>

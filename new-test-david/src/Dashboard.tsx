@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import { useAuthenticated } from 'react-admin';
+import { useEffect, useState } from 'react';
 import { useDataProvider, usePermissions, useNotify} from 'react-admin';
-
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "./theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
@@ -308,7 +306,7 @@ export const Dashboard = () => {
                       variant="h5"
                       fontWeight="600"
                     >
-                      {ticket.aula} Aula
+                      {ticket.aula}
                     </Typography>
                     <Typography color={colors.grey[100]}>
                       {ticket.coordinador}
