@@ -1,19 +1,49 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useAuthenticated } from 'react-admin';
 import { useDataProvider, usePermissions, useNotify} from 'react-admin';
+
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { tokens } from "./theme";
+import { tokens } from "../theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import Header from "./Components/Header";
-import LineChart from "./Components/LineChart";
-import BarChart from "./Components/BarChart";
-import PieChart from "./Components/PieChart";
-import StatBox from "./Components/StatBox";
+import Header from "../Components/Header";
+import LineChart from "../Components/LineChart";
+import BarChart from "../Components/BarChart";
+import PieChart from "../Components/PieChart";
+import StatBox from "../Components/StatBox";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SchoolIcon from '@mui/icons-material/School';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { RefObject } from 'react';
+// import { ReporteProvider } from './ReporteContext';
 
-export const Dashboard = () => {
+
+
+export const Reporte = () => {
+    const handleExportToPDF = (reporteRef: RefObject<HTMLDivElement>) => {
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const canvas = reporteRef.current;
+      
+        if (!canvas) {
+          console.error('reporte canvas is null');
+          return;
+        }
+      
+        // Convierte el contenido a una imagen (canvas)
+        html2canvas(canvas).then((canvas) => {
+          const imgData = canvas.toDataURL('image/png');
+      
+          // Agrega la imagen al PDF
+          pdf.addImage(imgData, 'PNG', 15, 10, 190, 200);
+      
+          // Descarga el PDF
+          pdf.save('reporte.pdf');
+        });
+      };
+    const reporteRef = useRef<HTMLDivElement | null>(null);
+
   const {permissions} = usePermissions();
   const isCoordinador = permissions.includes('Coordinador');
   const notify = useNotify();
@@ -33,6 +63,7 @@ export const Dashboard = () => {
     const [aulasRegistradas, setAulasRegistradas] = useState(0);
     const [tickets, setTickets] = useState<any[]>([]);
     const [mostRepeatedCategory, setMostRepeatedCategory] = useState<string>('');
+    
 
     useEffect(() => {
         // Lógica para contar todos los tickets
@@ -154,11 +185,29 @@ export const Dashboard = () => {
             });
 }, []);
 
+
+
     return (
-       <Box m="20px">
+      <Box m="20px" ref={reporteRef}>
           {/* HEADER */}
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="DASHBOARD" subtitle="Bienvenido" />
+            <Header title="REPORTE" subtitle="SEMANAL" />
+    
+            <Box>
+              <Button
+                sx={{
+                  backgroundColor: colors.blueAccent[700],
+                  color: colors.grey[100],
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  padding: "10px 30px",
+                }}
+                onClick={() => handleExportToPDF(reporteRef)}
+              >
+                <DownloadOutlinedIcon sx={{ mr: "10px" }} />
+                Descargar Reporte
+              </Button>
+            </Box>
           </Box>
     
           {/* GRID & CHARTS */}
@@ -168,81 +217,6 @@ export const Dashboard = () => {
             gridAutoRows="140px"
             gap="20px"
           > 
-            {/* ROW 1 */}
-            <Box
-                gridColumn="span 3"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                 >
-              <StatBox
-                title={ticketCount}
-                subtitle="Tickets Generados"
-                progress="null"
-                increase=""
-                icon={
-                  <AddCircleIcon
-                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                  />
-                }
-              />
-            </Box>
-            <Box
-              gridColumn="span 3"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <StatBox
-                title={ticketsEnCurso}
-                subtitle="Tickets En Curso"
-                progress="null"
-                increase=""
-                icon={
-                  <AccessTimeFilledIcon
-                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                  />
-                }
-              />
-            </Box>
-            <Box
-              gridColumn="span 3"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <StatBox
-                title={ticketsCompletados}
-                subtitle="Tickets Completados"
-                progress="null"
-                increase=""
-                icon={
-                  <CheckCircleIcon
-                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                  />
-                }
-              />
-            </Box>
-            <Box
-              gridColumn="span 3"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <StatBox
-                title={aulasRegistradas}
-                subtitle="Aulas Registradas"
-                progress="null"
-                increase=""
-                icon={
-                  <SchoolIcon
-                    sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                  />
-                }
-              />
-            </Box>
-    
-            {/* ROW 2 */}
             <Box
               gridColumn="span 8"
               gridRow="span 2"
@@ -271,7 +245,7 @@ export const Dashboard = () => {
                   </Typography>
                 </Box>
               </Box>
-              <Box height="250px" m="-20px 0 0 0">
+              <Box height="300px" width="1100px" m="-20px 0 0 0">
                 <LineChart isDashboard={true} />
               </Box>
             </Box>
@@ -280,54 +254,13 @@ export const Dashboard = () => {
               gridRow="span 2"
               overflow="auto"
             >
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                borderBottom={`4px solid ${colors.primary[500]}`}
-                p="15px"
-              >
-                <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                  Tickets Recientes
-                </Typography>
-              </Box>
-              {tickets.map((ticket, i) => (
-                <Box
-                key={`ticket-${i}`}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  borderBottom={`4px solid ${colors.primary[500]}`}
-                  p="15px"
-                >
-                  <Box>
-                    <Typography
-                      color={colors.greenAccent[500]}
-                      variant="h5"
-                      fontWeight="600"
-                    >
-                      {ticket.aula}
-                    </Typography>
-                    <Typography color={colors.grey[100]}>
-                      {ticket.coordinador}
-                    </Typography>
-                  </Box>
-                  <Box color={colors.grey[100]}>{ticket.timestamp}</Box>
-                  <Box
-                    p="5px 10px"
-                    borderRadius="4px"
-                  >
-                    {ticket.estado}
-                  </Box>
-                </Box>
-              ))}
             </Box>
     
             {/* ROW 3 */}
             <Box
               gridColumn="span 4"
               gridRow="span 2"
-              p="30px"
+              p="10vh"
             >
               <Typography variant="h5" fontWeight="600">
                 Prioridad de Tickets
@@ -352,6 +285,7 @@ export const Dashboard = () => {
             <Box
               gridColumn="span 4"
               gridRow="span 2"
+              p="6.5vh"
             >
               <Typography
                 variant="h5"
@@ -364,14 +298,116 @@ export const Dashboard = () => {
                 <BarChart isDashboard={true} />
               </Box>
             </Box>
+          </Box>  
+        <Box m="20px" paddingTop="20vh">
+          {/* GRID & CHARTS */}
+          <Box
+            display="grid"
+            gridTemplateColumns="repeat(12, 1fr)"
+            gridAutoRows="140px"
+            gap="20px"
+            > 
+            {/* ROW 2 */}
+            
             <Box
-              gridColumn="span 4"
+              gridColumn="span 5"
               gridRow="span 2"
-              padding="30px"
+              width="65vh"
             >
+                <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    borderBottom={`4px solid ${colors.primary[500]}`}
+                    p="15px"
+                    >
+                      <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+                         Historial tickets
+                     </Typography>
+                </Box>
+                    {tickets.map((ticket, i) => (
+                        <Box
+                        key={`ticket-${i}`}
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        borderBottom={`2px solid ${colors.primary[500]}`}
+                        p="15px"
+                        height="5vh"
+                        width="65vh"
+                    >
+                        <Box width="300px">
+                        <Typography
+                            color={colors.greenAccent[500]}
+                            fontWeight="600"
+                            fontSize="13px"
+                            >
+                            {ticket.coordinador}
+                        </Typography>
+                        </Box>
+                        <Box
+                            width="200px"
+                            fontSize="12px"
+                            color={colors.grey[100]}
+                            >
+                        {ticket.timestamp}
+                        </Box>
+                        <Box p="5px 10px" fontSize="12px" borderRadius="4px" width="100px">
+                        {ticket.estado}
+                        </Box>
+                    </Box>
+                    ))}
+                 </Box>
+                 <Box
+                    gridColumn="span 4"
+                    gridRow="span 2"
+                    >
+                <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    borderBottom={`4px solid ${colors.primary[500]}`}
+                    p="15px"
+                    >
+                      <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+                         Categoria tickets
+                     </Typography>
+                </Box>
+                {tickets.map((ticket, i) => (
+                    <Box
+                    key={`ticket-${i}`}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    borderBottom={`2px solid ${colors.primary[500]}`}
+                    p="15px"
+                    height="5vh"
+                    width="65vh"
+                    >
+                        <Box width="300px">
+                        <Typography
+                            color={colors.greenAccent[500]}
+                            fontWeight="600"
+                            fontSize="13px"
+                            >
+                            {ticket.categoria}
+                        </Typography>
+                        </Box>
+                        <Box
+                            width="200px"
+                            fontSize="12px"
+                            color={colors.grey[100]}
+                            >
+                        {ticket.subcategoria}
+                        </Box>
+                        <Box p="5px 10px" fontSize="12px" borderRadius="4px" width="100px">
+                        {ticket.estado}
+                        </Box>
+                    </Box>
+                    ))}
+                </Box>
             </Box>
-          </Box>
+        </Box>
         </Box>
       );
     };
-

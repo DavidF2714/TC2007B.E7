@@ -3,7 +3,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import { Prueba } from "./BarChartData"
 
-const BarChart = ({ isDashboard = false }) => {
+const BarChart = ({ isDashboard = false, isReporte = false}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const prueba = Prueba();

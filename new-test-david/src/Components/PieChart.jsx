@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { PieChartDataProvider } from "./PieChartData";
 
-const PieChart = ({isDashboard = false }) => {
+const PieChart = ({isDashboard = false, isReporte = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const chartData  = PieChartDataProvider();
