@@ -12,7 +12,9 @@ import {
   useNotify,
   SaveButton,
   useDataProvider,
+  CreateButton
 } from "react-admin";
+import AddIcon from '@mui/icons-material/Add';
 import {
   Box,
   Container,
@@ -36,6 +38,8 @@ import {
   Typography,
 } from "@mui/material";
 import { tokens } from "./theme.js";
+import { useMediaQuery } from "@mui/material";
+
 
 export const TicketList = () => {
   const dataProvider = useDataProvider();
@@ -59,97 +63,73 @@ export const TicketList = () => {
   }, []);
 
   return (
-    <Box gridColumn="span 4" gridRow="span 2" overflow="auto">
-<List>
-    <Datagrid rowClick="edit">
-      <TextField source='aula' label="Aula" />
-      {/* ... other fields */}
-    </Datagrid>
-  </List>
-    <Header title="TICKETS" subtitle="Ver lista de tickets."/>
-    {tickets.map((ticket, i) => (
-      <Card 
-      sx={{ maxWidth: 345 }} 
-      key={`ticket-${i}`}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {ticket.aula}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Prioridad: {ticket.prioridad}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {ticket.coordinador}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Mostrar más</Button>
-                <Button size="small"></Button>
-                <Button color={"error"} size="small" startIcon={<DeleteIcon />}>Borrar</Button>
-              </CardActions>
-            </Card>
-    ))}
-  </Box>
-    );
-    };
+    <Box gridColumn="span 8" gridRow="span 4" overflow="auto">
+      <List>
+        <Datagrid rowClick="edit">
+        <TextField source='aula' label="Aula" />
+        <TextField source="coordinador" label="Coordinador" />
+        <TextField source='folio' label="Folio" />
+        <TextField source="categoria" label="Categoría" />
+        <TextField source="subcategoria" label="Subcategoría" />
+        <TextField source="estado" label="Estado" />
+        <TextField source='prioridad' label="Prioridad"/>
+        <TextField source="timestamp" label="Fecha y Hora" />
+        </Datagrid>
+      </List>
+      <Header title="TICKETS" subtitle="Ver lista de tickets." />
+      <Button  color="success">
+      </Button>
+      <Button
+                    href="/#/tickets/create"
+                    variant="contained"
+                    color={"success"}
+                    size="small"
+                    startIcon={<AddIcon />}
+                  >
+                    CREAR
+                  </Button>
+      <Container>
+        <Grid container spacing={3}>
+          {tickets.map((ticket, i) => (
+            <Grid item key={`ticket-${i}`} xs={12} sm={6} md={4}>
+              <Card sx={{ maxWidth: 345 }}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {ticket.aula}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Prioridad: {ticket.prioridad}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {ticket.coordinador}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Mostrar más</Button>
+                  <Button size="small"></Button>
+                  <Button
+                    color={"error"}
+                    size="small"
+                    startIcon={<DeleteIcon />}
+                  >
+                    Borrar
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </Box>
+  );
+};
 
-// const TicketList = () => {
-//   const [tickets, setTickets] = useState<any[]>([]);
-
-//   // Call TicketData with setTickets as a prop
-//   TicketData({ setTickets });
-
-//   return (
-// <Box m="1.5rem 2.5rem">
-//   <Header title="TICKETS" subtitle="Ver lista de tickets."/>
-  // <List>
-  //   <Datagrid rowClick="edit">
-  //     <TextField source='aula' label="Aula" />
-  //     {/* ... other fields */}
-  //   </Datagrid>
-  // </List>
-//   <MuiCard details={tickets} /> {/* Pass tickets as details */}
-// </Box>
-//   );
-// };
-
-// const TicketData = () => {
-//   const [tickets, setTickets] = useState<any[]>([]);
-
-//   useEffect(() => {
-//     dataProvider
-//       .getList("tickets", {
-//         pagination: { page: 1, perPage: 100 },
-//         sort: { field: "id", order: "ASC" },
-//         filter: {},
-//       })
-//       .then((response) => {
-//         setTickets(response.data);
-//       })
-//       .catch((error) => {
-//         console.error("Error al obtener los tickets", error);
-//       });
-//   }, []);
-// };
-
-// export const TicketList = () => (
-//   <Box m="1.5rem 2.5rem">
-//     <Header title="TICKETS" subtitle="Ver lista de tickets."/>
-//     <List>
-//     <Datagrid rowClick="edit">
-//       <TextField source='aula' label="Aula" />
-//       <TextField source="coordinador" label="Coordinador" />
-//       <TextField source='folio' label="Folio" />
-//       <TextField source="categoria" label="Categoría" />
-//       <TextField source="subcategoria" label="Subcategoría" />
-//       <TextField source="estado" label="Estado" />
-//       <TextField source='prioridad' label="Prioridad"/>
-//       <TextField source="timestamp" label="Fecha y Hora" />
-//     </Datagrid>
-//     </List>
-//     <MuiCard />
-//   </Box>
-// );
+{
+  /* <Box sx={{ '& > :not(style)': { m: 1 } }}>
+      <Fab color="primary" aria-label="add">
+        <AddIcon />
+      </Fab> */
+}
 
 export const TicketEdit: React.FC = (props) => {
   const { permissions } = usePermissions();
