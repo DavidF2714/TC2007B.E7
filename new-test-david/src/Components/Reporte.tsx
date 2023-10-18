@@ -271,7 +271,7 @@ export const Reporte = () => {
                 alignItems="center"
                 mt="25px"
               >
-                <Box height="300px" width="800px" m="-30px 90px 0 0">
+                <Box height="300px" width="800px" m="-30px -90px 0 0">
                 <PieChart isDashboard={true} />
                 </Box>
                 <Typography
@@ -370,7 +370,7 @@ export const Reporte = () => {
                     p="15px"
                     >
                       <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                         Categoria tickets
+                         Categoría y Aula
                      </Typography>
                 </Box>
                 {tickets.map((ticket, i) => (
@@ -401,7 +401,7 @@ export const Reporte = () => {
                         {ticket.subcategoria}
                         </Box>
                         <Box p="5px 10px" fontSize="12px" borderRadius="4px" width="100px">
-                        {ticket.estado}
+                        {ticket.aula}
                         </Box>
                     </Box>
                     ))}

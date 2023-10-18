@@ -4,7 +4,7 @@ import { tokens } from "../theme";
 import { mockLineData as data } from "./mockData";
 import { Prueba } from './LineChartData'
 
-const LineChart = ({ isCustomLineColors = false, isDashboard = false, isReporte = false}) => {
+const LineChart = ({ isCustomLineColors = false, isDashboard = false}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const prueba = Prueba();

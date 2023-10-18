@@ -4,7 +4,7 @@ import { tokens } from "../theme";
 import { mockPieData as data } from "./mockData";
 import { PieChartDataProvider } from "./PieChartData";
 
-const PieChart = ({isDashboard = false, isReporte = false }) => {
+const PieChart = ({isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const chartData  = PieChartDataProvider();
@@ -37,6 +37,11 @@ const PieChart = ({isDashboard = false, isReporte = false }) => {
         legends: {
           text: {
             fill: colors.grey[100],
+          },
+        },
+        tooltip: {
+          container: {
+            color: colors.primary[500],
           },
         },
       }}
