@@ -3,7 +3,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import { Prueba } from "./BarChartData"
 
-const BarChart = ({ isDashboard = false, isReporte = false}) => {
+const BarChart = ({ isDashboard = false,}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const prueba = Prueba();
@@ -12,7 +12,6 @@ const BarChart = ({ isDashboard = false, isReporte = false}) => {
     <ResponsiveBar
       data={prueba}
       theme={{
-        // added
         axis: {
           domain: {
             line: {
@@ -37,6 +36,11 @@ const BarChart = ({ isDashboard = false, isReporte = false}) => {
         legends: {
           text: {
             fill: colors.grey[100],
+          },
+        },
+        tooltip: {
+          container: {
+            color: colors.primary[500],
           },
         },
       }}
