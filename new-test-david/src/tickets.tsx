@@ -40,7 +40,7 @@ export const TicketList = () => {
     dataProvider
       .getList("tickets", {
         pagination: { page: 1, perPage: 100 },
-        sort: { field: "timestamp", order: "DES" },
+        sort: { field: "timestamp", order: "DESC" },
         filter: {},
       })
       .then((response) => {
@@ -73,7 +73,10 @@ export const TicketList = () => {
                    {ticket.timestamp}
                   </Typography>
                   <Typography gutterBottom variant="h5" component="div">
-                    {ticket.aula}
+                    Aula: {ticket.aula}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5, fontWeight: 'bold' }} variant="body2" color="text.secondary">
+                    Coordinador: {ticket.coordinador}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Prioridad:&nbsp;
@@ -84,11 +87,8 @@ export const TicketList = () => {
                      ticket.prioridad === 'Alto' ? 'red' : 'black'
             }}
           >
-             {ticket.prioridad}
+            {ticket.prioridad}
           </span>
-                  </Typography>
-                  <Typography sx={{ mb: 1.5, fontWeight: 'bold' }} variant="body2" color="text.secondary">
-                    {ticket.coordinador}
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
                     Estado: {ticket.estado}
@@ -96,12 +96,9 @@ export const TicketList = () => {
                   <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
                     {ticket.categoria} - {ticket.subcategoria}
                   </Typography>
-                  <Typography sx={{ mb: 1.5 }} variant="body2" color="text.secondary">
-                    {ticket.descripcion.length > 50 ? `${ticket.descripcion.slice(0, 50)}...` : ticket.descripcion}
-                  </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" href={`./#/tickets/${ticket.id}`}>Ver más</Button>
+                  <Button size="small" href={`./#/tickets/${ticket.id}`}>Atender</Button>
                 </CardActions>
               </Card>
             </Grid>

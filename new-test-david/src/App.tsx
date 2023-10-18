@@ -4,10 +4,10 @@ import { Dashboard } from "./Dashboard";
 import { i18nProvider } from "./i18nProvider";
 import { MyLayout } from "./MyLayout";
 import { TicketList, TicketCreate, TicketEdit } from "./tickets";
-import Registrarse from "./testregister";
+import Registrarse from "./MyRegister"
 import { Route } from "react-router-dom";
 import authProvider from "./AuthProvider";
-import CustomLoginPage from "./testlogin";
+import CustomLoginPage from "./MyLogin";
 import { UserList, UsuarioEdit } from "./Users";
 import Book from '@mui/icons-material/Book';
 import PeopleIcon from '@mui/icons-material/People';

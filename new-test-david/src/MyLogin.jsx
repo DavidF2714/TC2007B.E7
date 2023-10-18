@@ -14,6 +14,7 @@ const CustomLoginPage = () => {
 
         try {
             await login({ username, password });
+            window.location.href='#/tickets';
         } catch (error) {
             notify('Error en la autentificación');
         }

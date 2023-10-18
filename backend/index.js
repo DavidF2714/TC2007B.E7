@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 
 async function connectDB(){
-    let client=new MongoClient("mongodb://127.0.0.1:27017/tc2007b")
+    let client=new MongoClient("mongodb://localhost:27017/tc2007b")
     await client.connect();
     db=client.db();
     console.log("Conectado a la base de datos")
