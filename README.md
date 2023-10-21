@@ -9,7 +9,7 @@ TC2007B.E7
  
 ## Mongo DB 
 
-Crear base de datos y colecciones. 
+## Crear base de datos y colecciones. 
 En MongoDBCompass conectarse a:
 ```sh
 mongodb://localhost:27017/
