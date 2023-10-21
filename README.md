@@ -11,8 +11,11 @@ TC2007B.E7
 
 ## Crear base de datos y colecciones. 
 En MongoDBCompass conectarse a:
-
-<img src="https://i.gyazo.com/98683b88349dc79ff9c46af5220a1519.png" alt="JuveR" width="300px">
+<div>
+<p style = 'text-align:center;'>
+<img src="https://pbs.twimg.com/media/EiAAHfoU4AADis4?format=jpg&name=small" alt="JuveYell" width="300px">
+</p>
+</div>
 
 Posteriormente en Databases dar click en el botón "+" (Create database)
 y crear una base de datos con el nombre:
