@@ -4,8 +4,34 @@ TC2007B.E7
 ## Instalar:
 - Node.js y NPM
   - https://nodejs.org/
-- MongoDB Community Server Download
-  - https://www.mongodb.com/try/download/community 
+- MongoDB Community Server e incluir MongoDB Compass
+  - https://www.mongodb.com/try/download/community
+ 
+## Mongo DB 
+
+Crear base de datos y colecciones. 
+En MongoDBCompass conectarse a:
+```sh
+mongodb://localhost:27017/
+```
+Posteriormente en Databases dar click en el botón "+" (Create database)
+y crear una base de datos con el nombre:
+```sh
+tc2007b 
+```
+y el nombre de colección:
+```sh
+usuarios
+```
+Después en la base de datos tc2007b añadir las colecciones:
+```sh
+tickets
+```
+```sh
+log
+```
+dando click en el botón "+" (Create collection)
+
 
 ## Clonar Repositorio 
 
@@ -80,10 +106,10 @@ Haz clic en cualquiera de los dos enlaces https que se desplegarán a continuaci
 
 En el navegador web de preferencia dirigirse a la parte de privacidad y seguridad y seleccionar "Gestionar los certificados del dispositivo"
 
-Hacer click en el botón "Import...", Seleccionar "Next" en la pestaña Welcome, dar click en "Browse..." y dirigirse a la ubicación del respositorio
+Hacer click en el botón "Import...", Seleccionar "Next" en la pestaña Welcome, dar click en "Browse..." y dirigirse a la ubicación del respositorio, en la carpeta seleccionar el archivo:
 
 ```sh
-git clone https://github.com/DavidF2714/TC2007B.E7.git
+rootCA
 ```
-
+Y presionar "Next" a todo lo siguiente.
 
