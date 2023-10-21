@@ -55,7 +55,7 @@ export const TicketList = () => {
     <Box  m="1.5rem 2.5rem">
       <Header title="TICKETS" subtitle="Ver lista de tickets." />
       <Container>
-      <Grid container spacing={3} justifyContent="center" alignItems="center"> <Grid item xs={16} sm={6} md={4} alignItems="center" justifyContent="center"> <Box sx={{ p: 13}}> <Button
+      <Box sx={{ pathingButtom: 40}}> <Button
                     href="/#/tickets/create"
                     variant="contained"
                     color={"success"}
@@ -63,8 +63,8 @@ export const TicketList = () => {
                     startIcon={<AddIcon />}
                   >
                     CREAR
-                  </Button> </Box> </Grid>
-          
+                  </Button> </Box>
+      <Grid container spacing={3} paddingTop={2}> 
           {tickets.map((ticket, i) => (
             <Grid item key={`ticket-${i}`} xs={16} sm={6} md={4}>
               <Card sx={{ maxWidth: 345 }} variant="outlined">
@@ -111,19 +111,29 @@ export const TicketList = () => {
 
 export const TicketEdit: React.FC = (props) => {
   const { permissions } = usePermissions();
+  const notify = useNotify();
 
   // Verificar si el usuario tiene permisos de Coordinador
   const isCoordinador = permissions.includes("Coordinador");
 
+  const handleTitleChange = () => {
+    notify('Titulo actualizado')
+  };
+
+  const handleBodyChange = (event:any) => {
+    const newBody = event.target.value;
+    notify('Cuerpo actualizado', newBody)
+  };
+  
   return (
-    <Edit {...props}>
+    <Edit redirect='/#/dashboard' {...props}>
       <Box sx={{ textAlign: 'center', justifyContent: 'center' }}>
       <SimpleForm
         warnWhenUnsavedChanges
         toolbar={<SaveButton label="Guardar" />}
       >
-        <TextInput source="aula" label="Aula" disabled validate={required()} />
-        <TextInput source="coordinador" disabled validate={required()} />
+        <TextInput source="aula" label="Aula" disabled validate={required()}/>
+        <TextInput source="coordinador" disabled validate={required()}/>
         <TextInput source="categoria" disabled />
         <TextInput source="folio" disabled label="Número de Oficio" />
         <TextInput source="subcategoria" disabled />
@@ -140,7 +150,7 @@ export const TicketEdit: React.FC = (props) => {
           choices={[
             { id: "En curso", name: "En Curso" },
             { id: "Completado", name: "Completado" },
-          ]}
+          ]} onChange={handleTitleChange}
         />
         <SelectInput
           validate={required()}
@@ -154,7 +164,7 @@ export const TicketEdit: React.FC = (props) => {
           disabled={isCoordinador}
         />
         <TextInput source="descripcion" disabled multiline rows={5} fullWidth />
-        <TextInput source="comentario" multiline rows={5} fullWidth />
+        <TextInput source="comentario" multiline rows={5} fullWidth onChange={handleBodyChange}/>
       </SimpleForm>
       </Box>
     </Edit>

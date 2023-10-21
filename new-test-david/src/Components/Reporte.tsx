@@ -191,8 +191,8 @@ export const Reporte = () => {
             <Box>
               <Button
                 sx={{
-                  backgroundColor: 'deepskyblue',
-                  color: colors.grey[100],
+                  backgroundColor: '#7eccae',
+                  color: 'white',
                   fontSize: "14px",
                   fontWeight: "bold",
                   padding: "10px 30px",

@@ -13,44 +13,44 @@ TC2007B.E7
 En MongoDBCompass conectarse a:
 <div>
 <p style = 'text-align:center;'>
-<img src="https://pbs.twimg.com/media/EiAAHfoU4AADis4?format=jpg&name=small">
+<img src="img\mongo.png"style="width:500px;">
 </p>
 </div>
 
 Posteriormente en Databases dar click en el botón "+" (Create database)
 y crear una base de datos con el nombre:
-```sh
-tc2007b 
-```
-y el nombre de colección:
-```sh
-usuarios
-```
+<div>
+<p style = 'text-align:center;'>
+<img src="img\mongo2.png"style="width:500px;">
+</p>
+</div>
 Después en la base de datos tc2007b añadir las colecciones:
-```sh
-tickets
-```
-```sh
-log
-```
 dando click en el botón "+" (Create collection)
+<div>
+<p style = 'text-align:center;'>
+<img src="img\mongo3.png"style="width:500px;">
+</p>
+</div>
+
+
 
 
 ## Clonar Repositorio 
 
 Para clonar el repositorio, entramos a nuestra terminal de preferencia y escribimos el siguiente comando en la dirección dónde queramos clonar el repositorio:
 
-```sh
+```bash
 git clone https://github.com/DavidF2714/TC2007B.E7.git
 ```
 
-Después de clonar el repositorio, siga los siguientes pasos.
+Después de clonar el repositorio, entrar a la carpeta:
 
-```sh
+```bash
 cd TC2007B.E7
 ```
 
 ## BACKEND 
+
 
 ### Ubicación
 
@@ -74,6 +74,51 @@ Inicie la aplicación backend ejecutando el siguiente comando:
 node index.js
 ```
 
+## Instalar Certificados en el navegador 
+
+En el navegador web de preferencia dirigirse a la parte de privacidad y seguridad y seleccionar "Gestionar los certificados del dispositivo"
+<div>
+<p style = 'text-align:center;'>
+<img src="img\cert.png"style="width:500px;">
+</p>
+</div>
+
+Hacer click en el botón "Import...",
+<div>
+<p style = 'text-align:center;'>
+<img src="img\cert2.png"style="width:500px;">
+</p>
+</div>
+
+ Seleccionar "Next" en la pestaña Welcome,
+ <div>
+<p style = 'text-align:center;'>
+<img src="img\cert3.png"style="width:500px;">
+</p>
+</div>
+Dar click en "Browse..."
+<div>
+<p style = 'text-align:center;'>
+<img src="img\cert4.png"style="width:500px;">
+</p>
+</div>
+Y dirigirse a la ubicación del respositorio,
+en la carpeta seleccionar el archivo "rootCA":
+<div>
+<p style = 'text-align:center;'>
+<img src="img\cert5.png"style="width:500px;">
+</p>
+</div>
+
+Y finalmente presionar "Next" y "Finish" a todo lo siguiente.
+<div>
+<p style = 'text-align:center;'>
+<img src="img\cert6.png"style="width:500px;">
+</p>
+</div>
+<div>
+
+
 ## FRONTEND
 
 ### Instalar librerias faltantes
@@ -95,7 +140,7 @@ Inicie la aplicación en modo desarrollo ingresando el comando:
 npm run dev
 ```
 
-Haz clic en cualquiera de los dos enlaces https que se desplegarán a continuación similares a los que se encuentran a continuación:
+Haz clic en cualquiera de los dos enlaces https que se desplegarán a continuación:
 
 ```js
   VITE v4.4.9  ready in 443 ms
@@ -105,14 +150,5 @@ Haz clic en cualquiera de los dos enlaces https que se desplegarán a continuaci
   ➜  press h to show help
 ```
 
-## Instalar Certificados 
 
-En el navegador web de preferencia dirigirse a la parte de privacidad y seguridad y seleccionar "Gestionar los certificados del dispositivo"
-
-Hacer click en el botón "Import...", Seleccionar "Next" en la pestaña Welcome, dar click en "Browse..." y dirigirse a la ubicación del respositorio, en la carpeta seleccionar el archivo:
-
-```sh
-rootCA
-```
-Y presionar "Next" a todo lo siguiente.
 

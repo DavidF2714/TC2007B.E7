@@ -4,16 +4,16 @@ import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBIcon, MDBInput } from 'mdb-rea
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 const CustomLoginPage = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const login = useLogin();
-    const notify = useNotify();
+    const [username, setUsername] = useState(''); // '' es el valor inicial del estado username
+    const [password, setPassword] = useState(''); // '' es el valor inicial del estado password
+    const login = useLogin(); // The useLogin() hook makes the authProvider.login() call under the hood authProvider() 
+    const notify = useNotify(); // The useNotify() hook returns a callback to display a notification. It takes a single argument, the notification text.
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            await login({ username, password });
+            await login({ username, password }); // The login() function takes the username and password as arguments and returns a Promise.
             window.location.href='#/tickets';
         } catch (error) {
             notify('Error en la autentificación');
