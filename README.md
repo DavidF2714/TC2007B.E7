@@ -4,8 +4,10 @@ TC2007B.E7
 ## Instalar:
 - Node.js y NPM
   - https://nodejs.org/
+- MongoDB Community Server Download
+  - https://www.mongodb.com/try/download/community 
 - MongoDB Compass
-  - https://www.mongodb.com/try/download/compass
+  - [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass)
 
 ## Clonar Repositorio 
 
