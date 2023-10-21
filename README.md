@@ -6,8 +6,6 @@ TC2007B.E7
   - https://nodejs.org/
 - MongoDB Community Server Download
   - https://www.mongodb.com/try/download/community 
-- MongoDB Compass
-  - [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass)
 
 ## Clonar Repositorio 
 
@@ -18,6 +16,10 @@ git clone https://github.com/DavidF2714/TC2007B.E7.git
 ```
 
 Después de clonar el repositorio, siga los siguientes pasos.
+
+```sh
+cd TC2007B.E7
+```
 
 ## BACKEND 
 
@@ -30,6 +32,13 @@ Si se encuentra en la ubicación ~/Documents/pruebaHTTPS/TC2007B.E7/, utilice el
 cd backend
 ```
 
+Insertar usuario ejecutivo.
+Correr el siguiente comando:
+
+```js
+node adminCreate.js
+```
+
 Inicie la aplicación backend ejecutando el siguiente comando:
 
 ```sh
@@ -37,6 +46,12 @@ node index.js
 ```
 
 ## FRONTEND
+
+### Instalar librerias faltantes
+
+```js
+npm i html2canvas, jspdf y @nivo/pie
+```
 
 ### Ubicación
 
@@ -60,3 +75,15 @@ Haz clic en cualquiera de los dos enlaces https que se desplegarán a continuaci
   ➜  Network: https://10.23.34.5:1234/
   ➜  press h to show help
 ```
+
+## Instalar Certificados 
+
+En el navegador web de preferencia dirigirse a la parte de privacidad y seguridad y seleccionar "Gestionar los certificados del dispositivo"
+
+Hacer click en el botón "Import...", Seleccionar "Next" en la pestaña Welcome, dar click en "Browse..." y dirigirse a la ubicación del respositorio
+
+```sh
+git clone https://github.com/DavidF2714/TC2007B.E7.git
+```
+
+
