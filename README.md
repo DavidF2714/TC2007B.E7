@@ -1,8 +1,7 @@
 ## TC2007B.E7
 # Manual de Instalación
 
-##
-Instalar:
+## Instalar:
 - Node.js y NPM
   - https://nodejs.org/
 - MongoDB Compass
