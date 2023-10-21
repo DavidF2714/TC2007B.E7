@@ -1,10 +1,26 @@
-# TC2007B.E7
+## TC2007B.E7
+# Manual de Instalación
+
+##
+Instalar:
+- Node.js y NPM
+  - https://nodejs.org/
+- MongoDB
+  - https://www.mongodb.com/try/download/compass
+
+## Clonar Repositorio 
+
+Para clonar el repositorio, entramos a nuestra terminal de preferencia y escribimos el siguiente comando en la dirección dónde queramos clonar el repositorio:
+
+```sh
+git clone https://github.com/DavidF2714/TC2007B.E7.git
+```
 
 Después de clonar el repositorio, siga los siguientes pasos.
 
-# BACKEND 
+## BACKEND 
 
-## Ubicación
+### Ubicación
 
 Abra la terminal de su preferencia y diríjase a la ubicación ~/Documents/pruebaHTTPS/TC2007B.E7/backend.
 Si se encuentra en la ubicación ~/Documents/pruebaHTTPS/TC2007B.E7/, utilice el siguiente comando:
@@ -19,9 +35,9 @@ Inicie la aplicación backend ejecutando el siguiente comando:
 node index.js
 ```
 
-# FRONTEND
+## FRONTEND
 
-## Ubicación
+### Ubicación
 
 Ahora dirijase a la ubicación ~/Documents/pruebaHTTPS/TC2007B.E7/new-test-david
 ```sh
