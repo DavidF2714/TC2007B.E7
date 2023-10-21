@@ -11,9 +11,8 @@ TC2007B.E7
 
 ## Crear base de datos y colecciones. 
 En MongoDBCompass conectarse a:
-```sh
-mongodb://localhost:27017/
-```
+<img src="[https://pbs.twimg.com/media/EiAuAS8VoAA1-4T?format=jpg&name=large](https://i.gyazo.com/98683b88349dc79ff9c46af5220a1519.png)" alt="JuveR" width="300px">
+
 Posteriormente en Databases dar click en el botón "+" (Create database)
 y crear una base de datos con el nombre:
 ```sh
