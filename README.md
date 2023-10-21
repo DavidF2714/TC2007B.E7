@@ -1,4 +1,4 @@
-## TC2007B.E7
+TC2007B.E7
 # Manual de Instalación
 
 ## Instalar:
