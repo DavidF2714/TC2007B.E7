@@ -5,7 +5,7 @@
 Instalar:
 - Node.js y NPM
   - https://nodejs.org/
-- MongoDB
+- MongoDB Compass
   - https://www.mongodb.com/try/download/compass
 
 ## Clonar Repositorio 
