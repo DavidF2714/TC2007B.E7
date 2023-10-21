@@ -13,7 +13,7 @@ TC2007B.E7
 En MongoDBCompass conectarse a:
 <div>
 <p style = 'text-align:center;'>
-<img src="https://pbs.twimg.com/media/EiAAHfoU4AADis4?format=jpg&name=small" alt="JuveYell" width="300px">
+<img src="https://pbs.twimg.com/media/EiAAHfoU4AADis4?format=jpg&name=small">
 </p>
 </div>
 
