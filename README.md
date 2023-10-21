@@ -7,7 +7,7 @@ TC2007B.E7
 - MongoDB Community Server e incluir MongoDB Compass
   - https://www.mongodb.com/try/download/community
  
-## Mongo DB 
+### Mongo DB 
 
 ## Crear base de datos y colecciones. 
 En MongoDBCompass conectarse a:
